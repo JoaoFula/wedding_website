@@ -65,7 +65,6 @@ CREATE TABLE IF NOT EXISTS guests (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL,
     username TEXT NOT NULL,
     name TEXT NOT NULL,
-    email TEXT NOT NULL,
     attending BOOLEAN NOT NULL DEFAULT false,
     plus_one_name TEXT,
     dietary_restrictions TEXT,
@@ -111,7 +110,6 @@ CREATE POLICY "Allow authenticated deletes" ON guests
 
 -- Create indexes for faster lookups
 CREATE INDEX IF NOT EXISTS guests_username_idx ON guests(username);
-CREATE INDEX IF NOT EXISTS guests_email_idx ON guests(email);
 CREATE INDEX IF NOT EXISTS guests_created_at_idx ON guests(created_at DESC);
 
 -- ============================================================================

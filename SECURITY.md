@@ -37,7 +37,6 @@ const query = `SELECT * FROM guest_credentials WHERE username='${username}'`
 
 **Sanitization applied to:**
 - Guest names
-- Email addresses
 - Plus-one names
 - Dietary restrictions
 - Song suggestions
@@ -85,11 +84,6 @@ const sanitizedName = sanitizeText(formData.name)
 - 4-20 characters
 - Alphanumeric only
 - Regex: `/^[a-zA-Z0-9]+$/`
-
-**Email:**
-- Standard email format
-- Max 255 characters
-- Regex: `/^[^\s@]+@[^\s@]+\.[^\s@]+$/`
 
 **Text fields:**
 - Max 1000 characters

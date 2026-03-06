@@ -93,10 +93,7 @@ The website is fully commented to guide you. Here's what to customize:
 - Line 21: Update with your Google Drive folder link
 - Line 92: Update with your Google Photos album link (optional)
 
-#### 5. RSVP Page (`app/rsvp/page.tsx`)
-- Line 333: Update contact email
-
-#### 6. Add Your Photos
+#### 5. Add Your Photos
 
 1. Create a `/public/photos/` folder
 2. Add your photos there

@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { Heart, CheckCircle, AlertCircle, LogOut } from 'lucide-react'
-import { sanitizeText, sanitizeEmail, isValidEmail } from '@/utils/validation'
+import { sanitizeText } from '@/utils/validation'
 
 interface UserSession {
   username: string
@@ -37,7 +37,6 @@ export default function RSVPPage() {
   // Form state
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
     attending: true,
     plusOneName: '',
     dietaryRestrictions: '',
@@ -113,12 +112,6 @@ export default function RSVPPage() {
         throw new Error('No active session. Please log in again.')
       }
 
-      // Validate and sanitize inputs
-      const sanitizedEmail = sanitizeEmail(formData.email)
-      if (!isValidEmail(sanitizedEmail)) {
-        throw new Error('Please enter a valid email address.')
-      }
-
       // Sanitize text inputs to prevent XSS
       const sanitizedName = sanitizeText(formData.name)
       const sanitizedPlusOne = formData.plusOneName ? sanitizeText(formData.plusOneName) : null
@@ -138,7 +131,6 @@ export default function RSVPPage() {
       const { error } = await supabase.from('guests').insert({
         username: userSession.username,
         name: sanitizedName,
-        email: sanitizedEmail,
         attending: formData.attending,
         plus_one_name: sanitizedPlusOne,
         dietary_restrictions: sanitizedDietary,
@@ -161,7 +153,6 @@ export default function RSVPPage() {
       // Reset form (keep name)
       setFormData({
         name: userSession.guestName,
-        email: '',
         attending: true,
         plusOneName: '',
         dietaryRestrictions: '',
@@ -260,23 +251,6 @@ export default function RSVPPage() {
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
               placeholder="Your full name"
-            />
-          </div>
-
-          {/* Email Field */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-              Email Address <span className="text-rose-600">*</span>
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-              placeholder="your.email@example.com"
             />
           </div>
 

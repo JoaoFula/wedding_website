@@ -96,7 +96,6 @@ Now make it yours! See the [README.md](./README.md) for detailed customization i
 - [ ] Update event details in `app/details/page.tsx`
 - [ ] Set up Google Drive link in `app/photos/page.tsx` (line 21)
 - [ ] Add your photos to `/public/photos/` folder
-- [ ] Update contact email in `app/rsvp/page.tsx` (line 333)
 
 ## Step 6: Deploy to Vercel (10 minutes)
 

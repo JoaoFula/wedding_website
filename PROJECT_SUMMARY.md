@@ -15,7 +15,7 @@ A complete, production-ready wedding website with the following features:
 2. **RSVP Page** (`/rsvp` - app/rsvp/page.tsx)
    - Full-featured RSVP form
    - Fields for:
-     - Name and email
+     - Name
      - Attending status
      - Plus-one guest name
      - Dietary restrictions and allergies
@@ -82,7 +82,6 @@ A complete, production-ready wedding website with the following features:
 - id (UUID, primary key, auto-generated)
 - created_at (timestamp, auto-generated)
 - name (text, required)
-- email (text, required)
 - attending (boolean, required)
 - plus_one_name (text, optional)
 - dietary_restrictions (text, optional)
@@ -225,7 +224,7 @@ All files are heavily commented. Look for these markers:
 2. **Create admin user** in Supabase before deploying
 3. **Check mobile view** - most guests will RSVP on phone
 4. **Set up Google Drive** early so guests can start uploading
-5. **Share `/rsvp` link** directly with guests via email/messages
+5. **Share `/rsvp` link** directly with guests via messages
 6. **Monitor admin panel** regularly to track responses
 7. **Back up database** periodically (Supabase has automatic backups)
 8. **Update details** as they change (ceremony time, etc.)

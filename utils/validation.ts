@@ -104,21 +104,6 @@ export function sanitizeText(text: string): string {
 }
 
 /**
- * Validate email format
- */
-export function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  return emailRegex.test(email) && email.length <= 255
-}
-
-/**
- * Sanitize email
- */
-export function sanitizeEmail(email: string): string {
-  return email.trim().toLowerCase().substring(0, 255)
-}
-
-/**
  * Rate limiting helper - tracks login attempts
  * Simple in-memory rate limiting (resets on page reload)
  */

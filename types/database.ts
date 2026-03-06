@@ -21,7 +21,6 @@ export interface Guest {
   created_at: string
   username: string
   name: string
-  email: string
   attending: boolean
   plus_one_name?: string
   dietary_restrictions?: string
