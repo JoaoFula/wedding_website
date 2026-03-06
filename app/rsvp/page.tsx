@@ -17,6 +17,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { Heart, CheckCircle, AlertCircle, LogOut } from 'lucide-react'
+import { sanitizeText, sanitizeEmail, isValidEmail } from '@/utils/validation'
 
 interface UserSession {
   username: string
@@ -112,20 +113,38 @@ export default function RSVPPage() {
         throw new Error('No active session. Please log in again.')
       }
 
+      // Validate and sanitize inputs
+      const sanitizedEmail = sanitizeEmail(formData.email)
+      if (!isValidEmail(sanitizedEmail)) {
+        throw new Error('Please enter a valid email address.')
+      }
+
+      // Sanitize text inputs to prevent XSS
+      const sanitizedName = sanitizeText(formData.name)
+      const sanitizedPlusOne = formData.plusOneName ? sanitizeText(formData.plusOneName) : null
+      const sanitizedDietary = formData.dietaryRestrictions ? sanitizeText(formData.dietaryRestrictions) : null
+      const sanitizedSong = formData.spotifySongSuggestion ? sanitizeText(formData.spotifySongSuggestion) : null
+      const sanitizedNotes = formData.additionalNotes ? sanitizeText(formData.additionalNotes) : null
+
+      if (!sanitizedName || sanitizedName.length < 2) {
+        throw new Error('Please enter your full name.')
+      }
+
       // Create Supabase client
       const supabase = createClient()
 
       // Insert the RSVP data with username
+      // Note: Supabase client uses parameterized queries, protecting against SQL injection
       const { error } = await supabase.from('guests').insert({
         username: userSession.username,
-        name: formData.name,
-        email: formData.email,
+        name: sanitizedName,
+        email: sanitizedEmail,
         attending: formData.attending,
-        plus_one_name: formData.plusOneName || null,
-        dietary_restrictions: formData.dietaryRestrictions || null,
+        plus_one_name: sanitizedPlusOne,
+        dietary_restrictions: sanitizedDietary,
         accommodation_needed: formData.accommodationNeeded,
-        spotify_song_suggestion: formData.spotifySongSuggestion || null,
-        additional_notes: formData.additionalNotes || null,
+        spotify_song_suggestion: sanitizedSong,
+        additional_notes: sanitizedNotes,
       })
 
       if (error) {

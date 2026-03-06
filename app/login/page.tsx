@@ -14,6 +14,12 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { Heart, LogIn, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
+import {
+  sanitizeUsername,
+  sanitizePin,
+  validateLoginCredentials,
+  rateLimiter,
+} from '@/utils/validation'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -41,6 +47,7 @@ export default function LoginPage() {
 
   /**
    * Handle login submission
+   * Includes input validation, sanitization, and rate limiting
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,19 +55,38 @@ export default function LoginPage() {
     setError('')
 
     try {
+      // Sanitize inputs
+      const sanitizedUsername = sanitizeUsername(formData.username)
+      const sanitizedPin = sanitizePin(formData.pin)
+
+      // Validate credentials format
+      const validation = validateLoginCredentials(sanitizedUsername, sanitizedPin)
+      if (!validation.isValid) {
+        throw new Error(validation.errors.join('. '))
+      }
+
+      // Rate limiting - prevent brute force attacks
+      if (rateLimiter.isRateLimited(sanitizedUsername, 5, 900000)) {
+        throw new Error('Too many login attempts. Please try again in 15 minutes.')
+      }
+
       const supabase = createClient()
 
       // Verify credentials against guest_credentials table
+      // Note: Supabase client uses parameterized queries, so this is safe from SQL injection
       const { data, error: queryError } = await supabase
         .from('guest_credentials')
         .select('*')
-        .eq('username', formData.username.toLowerCase())
-        .eq('pin', formData.pin)
+        .eq('username', sanitizedUsername)
+        .eq('pin', sanitizedPin)
         .single()
 
       if (queryError || !data) {
         throw new Error('Invalid username or PIN. Please check your credentials.')
       }
+
+      // Reset rate limiter on successful login
+      rateLimiter.reset(sanitizedUsername)
 
       // Store user session in localStorage
       const userSession = {
