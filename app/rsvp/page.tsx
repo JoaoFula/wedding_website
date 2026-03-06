@@ -1,21 +1,38 @@
 /**
  * RSVP Page
  *
- * Allows guests to submit their RSVP to the wedding
+ * Protected page - requires guest authentication
+ * Allows authenticated guests to submit their RSVP to the wedding
  * Features:
+ * - Checks for valid guest session
  * - Form with all required fields (name, email, attending, dietary restrictions, etc.)
  * - Validates input before submission
- * - Saves to Supabase database
+ * - Saves to Supabase database with username
  * - Shows success/error messages
  */
 
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
-import { Heart, CheckCircle, AlertCircle } from 'lucide-react'
+import { Heart, CheckCircle, AlertCircle, LogOut } from 'lucide-react'
+
+interface UserSession {
+  username: string
+  guestName: string
+  isAdmin: boolean
+  hasRsvped: boolean
+  loginTime: string
+}
 
 export default function RSVPPage() {
+  const router = useRouter()
+
+  // Auth state
+  const [userSession, setUserSession] = useState<UserSession | null>(null)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+
   // Form state
   const [formData, setFormData] = useState({
     name: '',
@@ -32,6 +49,38 @@ export default function RSVPPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+
+  /**
+   * Check if user is logged in
+   */
+  useEffect(() => {
+    const sessionData = localStorage.getItem('userSession')
+    if (!sessionData) {
+      // No session - redirect to login
+      router.push('/login?redirect=/rsvp')
+      return
+    }
+
+    try {
+      const session: UserSession = JSON.parse(sessionData)
+      setUserSession(session)
+      // Pre-fill name from session
+      setFormData((prev) => ({ ...prev, name: session.guestName }))
+    } catch (error) {
+      console.error('Invalid session data:', error)
+      router.push('/login?redirect=/rsvp')
+    } finally {
+      setIsCheckingAuth(false)
+    }
+  }, [router])
+
+  /**
+   * Handle logout
+   */
+  const handleLogout = () => {
+    localStorage.removeItem('userSession')
+    router.push('/')
+  }
 
   /**
    * Handle form input changes
@@ -59,11 +108,16 @@ export default function RSVPPage() {
     setErrorMessage('')
 
     try {
+      if (!userSession) {
+        throw new Error('No active session. Please log in again.')
+      }
+
       // Create Supabase client
       const supabase = createClient()
 
-      // Insert the RSVP data
+      // Insert the RSVP data with username
       const { error } = await supabase.from('guests').insert({
+        username: userSession.username,
         name: formData.name,
         email: formData.email,
         attending: formData.attending,
@@ -80,9 +134,14 @@ export default function RSVPPage() {
 
       // Success!
       setSubmitStatus('success')
-      // Reset form
+      // Update session to mark as RSVP'd
+      const updatedSession = { ...userSession, hasRsvped: true }
+      setUserSession(updatedSession)
+      localStorage.setItem('userSession', JSON.stringify(updatedSession))
+
+      // Reset form (keep name)
       setFormData({
-        name: '',
+        name: userSession.guestName,
         email: '',
         attending: true,
         plusOneName: '',
@@ -102,6 +161,18 @@ export default function RSVPPage() {
     }
   }
 
+  // Show loading while checking auth
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+        <div className="text-center">
+          <Heart className="w-16 h-16 mx-auto mb-4 text-rose-500 fill-current animate-pulse" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
@@ -111,9 +182,23 @@ export default function RSVPPage() {
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
             RSVP to Our Wedding
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 mb-2">
             We'd love to know if you can join us on our special day!
           </p>
+          {userSession && (
+            <div className="flex items-center justify-center gap-4">
+              <p className="text-sm text-gray-500">
+                Logged in as: <span className="font-semibold">{userSession.guestName}</span>
+              </p>
+              <button
+                onClick={handleLogout}
+                className="text-sm text-rose-600 hover:underline inline-flex items-center gap-1"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Success Message */}

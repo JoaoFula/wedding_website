@@ -50,9 +50,9 @@ export default function Navigation() {
               Our Story
             </Link>
             <Link
-              href="/rsvp"
+              href="/login?redirect=/rsvp"
               className={`${
-                isActive('/rsvp')
+                isActive('/rsvp') || isActive('/login')
                   ? 'text-rose-600 border-b-2 border-rose-600'
                   : 'text-gray-700 hover:text-rose-600'
               } px-3 py-2 text-sm font-medium transition-colors`}
