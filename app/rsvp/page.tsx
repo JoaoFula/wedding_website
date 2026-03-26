@@ -52,6 +52,7 @@ export default function RSVPPage() {
 
   /**
    * Check if user is logged in
+   * This runs only once on component mount to preserve session across navigation
    */
   useEffect(() => {
     const sessionData = localStorage.getItem('userSession')
@@ -72,7 +73,8 @@ export default function RSVPPage() {
     } finally {
       setIsCheckingAuth(false)
     }
-  }, [router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /**
    * Handle logout
@@ -377,8 +379,8 @@ export default function RSVPPage() {
         <div className="mt-8 text-center text-sm text-gray-600">
           <p>
             Need to update your RSVP? Contact us at{' '}
-            <a href="mailto:your.email@example.com" className="text-rose-600 hover:underline">
-              your.email@example.com
+            <a href="mailto:hsifula@gmail.com" className="text-rose-600 hover:underline">
+              hsifula@gmail.com
             </a>
           </p>
         </div>

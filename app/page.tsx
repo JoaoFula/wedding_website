@@ -30,7 +30,7 @@ export default function Home() {
 
           {/* Replace these names with your actual names */}
           <h1 className="font-serif text-5xl sm:text-7xl font-bold text-gray-900 mb-4">
-            [Your Name] & [Partner's Name]
+            Joao & Zuza
           </h1>
 
           <p className="text-2xl sm:text-3xl text-gray-700 mb-8">
@@ -41,12 +41,12 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12 text-gray-700">
             <div className="flex items-center gap-2">
               <Calendar className="w-5 h-5" />
-              <span className="text-lg">June 15, 2026</span>
+              <span className="text-lg">July 3, 2027</span>
             </div>
             <div className="hidden sm:block w-px h-6 bg-gray-400" />
             <div className="flex items-center gap-2">
               <MapPin className="w-5 h-5" />
-              <span className="text-lg">Venue Name, City</span>
+              <span className="text-lg">Lesna 19, Lesna</span>
             </div>
           </div>
 

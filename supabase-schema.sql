@@ -89,23 +89,26 @@ CREATE POLICY "Allow inserts with valid username" ON guests
         )
     );
 
--- Allow authenticated users (admins) to read all records
+-- Allow anyone to read records (admin check happens in the application)
+-- This is needed because we use custom auth (guest_credentials) instead of Supabase Auth
 CREATE POLICY "Allow authenticated reads" ON guests
     FOR SELECT
-    TO authenticated
+    TO anon, authenticated
     USING (true);
 
--- Allow authenticated users (admins) to update records
+-- Allow anyone to update records (admin check happens in the application)
+-- This is needed because we use custom auth (guest_credentials) instead of Supabase Auth
 CREATE POLICY "Allow authenticated updates" ON guests
     FOR UPDATE
-    TO authenticated
+    TO anon, authenticated
     USING (true)
     WITH CHECK (true);
 
--- Allow authenticated users (admins) to delete records
+-- Allow anyone to delete records (admin check happens in the application)
+-- This is needed because we use custom auth (guest_credentials) instead of Supabase Auth
 CREATE POLICY "Allow authenticated deletes" ON guests
     FOR DELETE
-    TO authenticated
+    TO anon, authenticated
     USING (true);
 
 -- Create indexes for faster lookups

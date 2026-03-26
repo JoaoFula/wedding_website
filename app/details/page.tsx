@@ -40,12 +40,12 @@ export default function DetailsPage() {
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                [Venue Name]
+                Our home
               </h3>
               <p className="text-gray-600 mb-4">
-                [Street Address]<br />
-                [City, State ZIP]<br />
-                [Country]
+                Lesná 19<br />
+                671 02, Sumna<br />
+                Czech Republic
               </p>
 
               <a
@@ -61,7 +61,7 @@ export default function DetailsPage() {
               <div className="mt-6">
                 <h4 className="font-semibold text-gray-900 mb-2">Parking Information</h4>
                 <p className="text-gray-600">
-                  Add parking details here - for example, free parking available on-site or street parking nearby
+                  There are parking spots throughout the village. Several can be found on the main street, others behind the church or at the village end. Lesná is a rather small village so you&apos;ll be walking 5 minutes at most.
                 </p>
               </div>
             </div>
@@ -152,11 +152,11 @@ export default function DetailsPage() {
             <strong>Semi-Formal / Cocktail Attire</strong>
           </p>
           <p className="text-gray-600 mb-2">
-            We want you to feel comfortable! Here are some suggestions:
+            We want you to feel comfortable! Note that we will be in the garden so choose your footwear wisely. Here are some suggestions:
           </p>
           <ul className="list-disc list-inside text-gray-600 space-y-1 ml-4">
             <li>For guests: Cocktail dresses, nice slacks with dress shirts, suits</li>
-            <li>Please avoid: Jeans, sneakers, overly casual attire</li>
+            <li>Please avoid: Jeans, high heel shoes</li>
             <li>Colors to avoid: White, ivory, or anything that might look bridal</li>
           </ul>
 
@@ -179,7 +179,15 @@ export default function DetailsPage() {
           </div>
 
           <p className="text-gray-600 mb-6">
-            We've reserved room blocks at the following hotels. Please book early as rooms may fill up!
+            There are a lot of accommodation options. Feel free to reach out to discuss them.
+            
+            We will have tents in our backyard for those who prefer camping and we&apos;ll have the first floor of our house stuffed with sleeping bags for those who prefer sleeping inside.
+            
+            The village has a few accommodations up for renting that you can find below and there are plenty of places you can stay at in Znojmo.
+            
+            We will be having the cerimony in Znojmo city hall and then will have a bus to bring us to the venue. 
+            
+            We will also have a &apos;chaufer&apos; driving guests to their homes/ hotels throughout the night so don&apos;t worry about how you are getting home. Assuming you can still walk.
           </p>
 
           <div className="space-y-6">
@@ -242,8 +250,8 @@ export default function DetailsPage() {
 
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <p className="text-sm text-gray-700">
-              <strong>Need help with accommodation?</strong> Please let us know in your RSVP,
-              and we'll be happy to assist you with booking or recommendations!
+              <strong>Need help with accommodation or want to stay with us (house or backyard)?</strong> Please let us know in your RSVP,
+              and we&apos;ll be happy to assist you with booking or recommendations!
             </p>
           </div>
         </section>
@@ -270,8 +278,7 @@ export default function DetailsPage() {
                 Are children welcome?
               </h3>
               <p className="text-gray-600">
-                [Update this based on your preference - e.g., "We love your little ones, but this is
-                an adults-only celebration" or "Children are welcome!"]
+                Children are welcome! Just let us know if you're planning to bring your little one in the extra notes in the RSVP so that we can prepare accordingly.
               </p>
             </div>
 
@@ -280,7 +287,7 @@ export default function DetailsPage() {
                 What if I have dietary restrictions?
               </h3>
               <p className="text-gray-600">
-                Please let us know about any dietary restrictions or allergies in your RSVP, and we'll
+                Please let us know about any dietary restrictions or allergies in your RSVP, and we&apos;ll
                 make sure to accommodate you!
               </p>
             </div>
@@ -290,18 +297,17 @@ export default function DetailsPage() {
                 Will there be transportation?
               </h3>
               <p className="text-gray-600">
-                [Add details about shuttle service if you're providing one, or ride-share recommendations]
+                Yes, there will be a bus taking guests from the city hall where the cerimony will take place to the venue.
+                In the evening/night, there will be a driver taking guests to their homes/hotels.
               </p>
             </div>
 
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                What's the weather like?
+                What&apos;s the weather like?
               </h3>
               <p className="text-gray-600">
-                [Add seasonal weather information and recommendations - e.g., "June in [location] is
-                typically warm and sunny, around 75-80°F. The ceremony will be outdoors, so bring
-                sunscreen!"]
+                July in South Moravia is usually sunny and quite warm (25/ 30 degrees maximum) with the nights around the 15 degrees mark.
               </p>
             </div>
 
@@ -311,7 +317,7 @@ export default function DetailsPage() {
               </h3>
               <p className="text-gray-600">
                 Your presence is the greatest gift! However, if you'd like to give a gift, we have
-                a registry at [Store Name] or you can contribute to our [honeymoon fund/house fund].
+                a registry at [Store Name] or you can contribute to our honeymoon fund.
               </p>
             </div>
           </div>
@@ -326,7 +332,7 @@ export default function DetailsPage() {
             Feel free to reach out to us directly!
           </p>
           <a
-            href="mailto:your.email@example.com"
+            href="mailto:hsifula@gmail.com"
             className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
           >
             Contact Us

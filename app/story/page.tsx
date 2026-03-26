@@ -19,42 +19,63 @@ export default function StoryPage() {
   // Timeline items - customize these with your story
   const timelineItems = [
     {
-      year: '2020',
+      year: '2021',
       title: 'First Met',
       description:
-        'We met at [location/event]. It was love at first sight (or maybe second sight!). Describe how you met and what made that moment special.',
+        'We met through tinder on a sort of exploration trip, with our friends Xavier and Katulin. We went to Geres for the day and we both felt a little spark for each other.',
       // Add your photo here: image: '/photos/first-met.jpg',
     },
     {
       year: '2021',
       title: 'First Date',
       description:
-        'Our first official date was at [restaurant/location]. We talked for hours and knew this was something special. Share your favorite memory from the early days.',
+        'Our first official date was in Porto. After we met, Zuza went back to Finland where she was working at the time. Zuza took the bold move with a risky text and we started videochatting on a daily basis. Shortly after she decided on a surprise trip back to Porto.',
       // image: '/photos/first-date.jpg',
     },
     {
-      year: '2022',
+      year: '2021',
       title: 'Made It Official',
       description:
-        'After [time period] of dating, we officially became a couple. Describe what made you decide to commit to each other.',
+        'After about 3 months of dating, we officially became a couple when João visited Zuza in Czech for the first time. At this point, he had already signed the contract to start working in Brno.',
       // image: '/photos/official.jpg',
     },
     {
-      year: '2023',
+      year: '2021',
       title: 'Moved In Together',
       description:
-        'We found our first home together in [location]. Living together has been an amazing adventure filled with [shared activities/memories].',
+        'When João moved to Brno, Zuza ended up spending most of her days with him. At the end of 2021, João asked her to officially moved in. There was some clashes initially, but after we met our pet (Misael [love you buddy <3]), we realized that this would definitely work out.',
       // image: '/photos/moved-in.jpg',
+    },
+    {
+      year: '2023',
+      title: 'Taco',
+      description:
+        'After getting out of a no-dogs apartment and Zuza having graduated, we decided to get ourselves a dog. Taco became our first baby.',
+      // image: '/photos/proposal.jpg',
+    },
+    {
+      year: '2024',
+      title: 'The House',
+      description:
+        'After an exciting Kygo concert, when they got back to the hotel João had surprised Zuza with, Zuza laid in bed and asked for a glass of water. João brought her the glass but no water was found inside, instead, there was a ring.',
+      // image: '/photos/proposal.jpg',
     },
     {
       year: '2024',
       title: 'The Proposal',
       description:
-        '[Person] proposed at [location] on [date]. It was absolutely perfect! Share the proposal story and how it made you feel.',
+        'After an exciting Kygo concert, when they got back to the hotel João had surprised Zuza with, Zuza laid in bed and asked for a glass of water. João brought her the glass but no water was found inside, instead, there was a ring.',
       // image: '/photos/proposal.jpg',
     },
     {
-      year: '2026',
+      year: '2025',
+      title: 'The little (big) one',
+      description:
+        'After an exciting Kygo concert, when they got back to the hotel João had surprised Zuza with, Zuza laid in bed and asked for a glass of water. João brought her the glass but no water was found inside, instead, there was a ring.',
+      // image: '/photos/proposal.jpg',
+    },
+    {
+      year: '2027',
       title: 'Our Wedding Day',
       description:
         "And now we're here! We're so excited to celebrate this special day with all of you. Thank you for being part of our journey.",

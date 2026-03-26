@@ -172,6 +172,8 @@ Your website is now live at `https://your-project.vercel.app`!
 5. Follow the DNS configuration instructions
 6. Wait 24-48 hours for DNS to propagate
 
+## Step 9: Add translation feature
+
 ## 🎉 You're Done!
 
 Your wedding website is now live! Here's what you can do next:

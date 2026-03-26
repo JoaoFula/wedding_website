@@ -17,7 +17,7 @@ import { Camera, Upload, Heart } from 'lucide-react'
 
 export default function PhotosPage() {
   // TODO: Replace this with your actual Google Drive folder link
-  const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/YOUR_FOLDER_ID'
+  const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/13uinM1Cb8-Q9RZOI5jrPWf_YJuNdEuEw?usp=drive_link'
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
@@ -112,7 +112,7 @@ export default function PhotosPage() {
           </p>
 
           <a
-            href="https://photos.app.goo.gl/YOUR_ALBUM_LINK"
+            href="https://photos.app.goo.gl/C4LK4Fb75xfg644X6"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-rose-600 px-6 py-3 rounded-lg font-semibold border-2 border-rose-600 transition-colors"
@@ -162,42 +162,6 @@ export default function PhotosPage() {
             We can't wait to relive all the special moments through your photos.
             Your memories will help make our wedding album complete!
           </p>
-        </section>
-
-        {/* Setup Instructions for Couple */}
-        <section className="bg-yellow-50 border-l-4 border-yellow-400 p-6">
-          <h3 className="font-semibold text-gray-900 mb-2">
-            📝 Setup Instructions (for you):
-          </h3>
-          <ol className="list-decimal list-inside space-y-2 text-sm text-gray-700">
-            <li>
-              Go to{' '}
-              <a
-                href="https://drive.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-rose-600 hover:underline"
-              >
-                Google Drive
-              </a>
-            </li>
-            <li>Create a new folder for wedding photos</li>
-            <li>Right-click the folder → Share → Change to "Anyone with the link"</li>
-            <li>Set permissions to "Editor" so guests can upload</li>
-            <li>Copy the folder link and replace GOOGLE_DRIVE_LINK in this file (line 21)</li>
-            <li>
-              Optional: Create a{' '}
-              <a
-                href="https://photos.google.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-rose-600 hover:underline"
-              >
-                Google Photos
-              </a>{' '}
-              shared album as an alternative
-            </li>
-          </ol>
         </section>
       </div>
     </div>

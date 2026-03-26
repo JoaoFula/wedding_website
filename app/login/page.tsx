@@ -153,7 +153,7 @@ export default function LoginPage() {
               autoFocus
             />
             <p className="mt-1 text-sm text-gray-500">
-              From your invitation (e.g., john.smith)
+              From your invitation (e.g., John & Emma would be JoEm)
             </p>
           </div>
 
@@ -192,11 +192,11 @@ export default function LoginPage() {
           {/* Help Text */}
           <div className="pt-4 border-t border-gray-200">
             <p className="text-sm text-gray-600 text-center mb-2">
-              Don't have login credentials?
+              Don&apos;t have login credentials?
             </p>
             <p className="text-sm text-gray-500 text-center">
               Check your wedding invitation or{' '}
-              <a href="mailto:your.email@example.com" className="text-rose-600 hover:underline">
+              <a href="mailto:hsifula@gmail.com" className="text-rose-600 hover:underline">
                 contact us
               </a>
             </p>
@@ -216,7 +216,7 @@ export default function LoginPage() {
           <p className="text-sm text-blue-800">
             Login credentials ensure that only invited guests can RSVP. Your username and PIN
             were included in your wedding invitation. This helps us track responses accurately
-            and prevent spam RSVPs.
+            and prevent spam RSVPs. With your login you&apos;ll also be able to add photos to the google drive and suggest songs through spotify.
           </p>
         </div>
       </div>

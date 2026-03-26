@@ -44,6 +44,7 @@ export default function AdminPage() {
 
   /**
    * Check if user is logged in and is admin
+   * This runs only once on component mount to preserve session across navigation
    */
   useEffect(() => {
     const sessionData = localStorage.getItem('userSession')
@@ -71,7 +72,8 @@ export default function AdminPage() {
     } finally {
       setIsLoading(false)
     }
-  }, [router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   /**
    * Fetch all data (RSVPs and guest credentials)
