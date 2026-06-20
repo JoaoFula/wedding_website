@@ -31,7 +31,7 @@ export default function DetailsPage() {
                 Lesná 19<br />671 02, Sumna<br />Czech Republic
               </p>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=VENUE+ADDRESS+HERE"
+                href="https://www.google.com/maps/search/?api=1&query=Lesná+19,+671+02+Šumná,+Czech+Republic"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg transition-colors"
@@ -44,10 +44,14 @@ export default function DetailsPage() {
                 <p className="text-gray-600">{t('details.venue.parking.body')}</p>
               </div>
             </div>
-            <div className="bg-gray-200 rounded-lg h-64 md:h-auto flex items-center justify-center">
-              <div className="text-center text-gray-600">
-                <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              </div>
+            <div className="rounded-lg overflow-hidden h-64 md:h-auto min-h-64">
+              <iframe
+                title="Venue location"
+                src="https://maps.google.com/maps?q=Lesná+19,+671+02+Šumná,+Czech+Republic&z=15&output=embed"
+                className="w-full h-full border-0"
+                loading="lazy"
+                allowFullScreen
+              />
             </div>
           </div>
         </section>
