@@ -49,7 +49,11 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    localeImports[locale]().then(m => setTranslations(m.default))
+    let cancelled = false
+    localeImports[locale]().then(m => {
+      if (!cancelled) setTranslations(m.default)
+    })
+    return () => { cancelled = true }
   }, [locale])
 
   const setLocale = (code: LocaleCode) => {
