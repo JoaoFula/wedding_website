@@ -99,11 +99,13 @@ export default function Navigation() {
 
           <div className="flex items-center gap-3">
             {/* Language selector */}
-            <div className="relative" ref={langRef}>
+            <div className="relative" ref={langRef} onKeyDown={(e) => { if (e.key === 'Escape') setLangOpen(false) }}>
               <button
                 onClick={() => setLangOpen(o => !o)}
                 className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:border-rose-400 transition-colors"
-                aria-label="Select language"
+                aria-label={`Select language, current: ${currentLocale.name}`}
+                aria-expanded={langOpen}
+                aria-haspopup="listbox"
               >
                 <span>{currentLocale.flag}</span>
                 <span className="text-gray-700 font-medium hidden sm:inline">{currentLocale.label}</span>
@@ -124,7 +126,7 @@ export default function Navigation() {
                       <div>
                         <div className="text-sm font-medium text-gray-900">{loc.name}</div>
                         {loc.code === locale && (
-                          <div className="text-xs text-rose-500">Current</div>
+                          <span className="text-rose-500 text-xs ml-auto">✓</span>
                         )}
                       </div>
                     </button>
