@@ -1,153 +1,56 @@
-/**
- * Our Story Page
- *
- * Timeline showing the couple's journey together
- * Features:
- * - Beautiful timeline layout
- * - Placeholder for photos at each milestone
- * - Customizable text for each milestone
- *
- * Instructions:
- * - Replace the timeline items with your actual story
- * - Add photos to /public folder and update image paths
- */
+'use client'
 
 import { Heart } from 'lucide-react'
 import Image from 'next/image'
+import { useTranslation } from '@/components/LanguageProvider'
 
 export default function StoryPage() {
-  // Timeline items - customize these with your story
+  const { t } = useTranslation()
+
   const timelineItems = [
-    {
-      year: '2021',
-      title: 'First Met',
-      description:
-        'We met through tinder on a sort of exploration trip, with our friends Xavier and Katulin. We went to Geres for the day and we both felt a little spark for each other.',
-      // Add your photo here: image: '/photos/first-met.jpg',
-    },
-    {
-      year: '2021',
-      title: 'First Date',
-      description:
-        'Our first official date was in Porto. After we met, Zuza went back to Finland where she was working at the time. Zuza took the bold move with a risky text and we started videochatting on a daily basis. Shortly after she decided on a surprise trip back to Porto.',
-      // image: '/photos/first-date.jpg',
-    },
-    {
-      year: '2021',
-      title: 'Made It Official',
-      description:
-        'After about 3 months of dating, we officially became a couple when João visited Zuza in Czech for the first time. At this point, he had already signed the contract to start working in Brno.',
-      // image: '/photos/official.jpg',
-    },
-    {
-      year: '2021',
-      title: 'Moved In Together',
-      description:
-        'When João moved to Brno, Zuza ended up spending most of her days with him. At the end of 2021, João asked her to officially moved in. There was some clashes initially, but after we met our pet (Misael [love you buddy <3]), we realized that this would definitely work out.',
-      // image: '/photos/moved-in.jpg',
-    },
-    {
-      year: '2023',
-      title: 'Taco',
-      description:
-        'After getting out of a no-dogs apartment and Zuza having graduated, we decided to get ourselves a dog. Taco became our first baby.',
-      // image: '/photos/proposal.jpg',
-    },
-    {
-      year: '2024',
-      title: 'The House',
-      description:
-        'After an exciting Kygo concert, when they got back to the hotel João had surprised Zuza with, Zuza laid in bed and asked for a glass of water. João brought her the glass but no water was found inside, instead, there was a ring.',
-      // image: '/photos/proposal.jpg',
-    },
-    {
-      year: '2024',
-      title: 'The Proposal',
-      description:
-        'After an exciting Kygo concert, when they got back to the hotel João had surprised Zuza with, Zuza laid in bed and asked for a glass of water. João brought her the glass but no water was found inside, instead, there was a ring.',
-      // image: '/photos/proposal.jpg',
-    },
-    {
-      year: '2025',
-      title: 'The little (big) one',
-      description:
-        'After an exciting Kygo concert, when they got back to the hotel João had surprised Zuza with, Zuza laid in bed and asked for a glass of water. João brought her the glass but no water was found inside, instead, there was a ring.',
-      // image: '/photos/proposal.jpg',
-    },
-    {
-      year: '2027',
-      title: 'Our Wedding Day',
-      description:
-        "And now we're here! We're so excited to celebrate this special day with all of you. Thank you for being part of our journey.",
-      // image: '/photos/engagement.jpg',
-    },
+    { year: '2021', titleKey: 'story.timeline.0.title', descKey: 'story.timeline.0.description', image: '/photos/first-met.jpg' },
+    { year: '2021', titleKey: 'story.timeline.1.title', descKey: 'story.timeline.1.description', image: '/photos/first-date.jpg' },
+    { year: '2021', titleKey: 'story.timeline.2.title', descKey: 'story.timeline.2.description', image: '/photos/moved-in.jpg' },
+    { year: '2023', titleKey: 'story.timeline.3.title', descKey: 'story.timeline.3.description' },
+    { year: '2024', titleKey: 'story.timeline.4.title', descKey: 'story.timeline.4.description' },
+    { year: '2024', titleKey: 'story.timeline.5.title', descKey: 'story.timeline.5.description' },
+    { year: '2025', titleKey: 'story.timeline.6.title', descKey: 'story.timeline.6.description' },
+    { year: '2027', titleKey: 'story.timeline.7.title', descKey: 'story.timeline.7.description' },
   ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
-      {/* Header */}
       <div className="text-center py-16 px-4">
         <Heart className="w-16 h-16 mx-auto mb-6 text-rose-500 fill-current" />
         <h1 className="font-serif text-5xl sm:text-6xl font-bold text-gray-900 mb-4">
-          Our Story
+          {t('story.heading')}
         </h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          From the moment we met to the day we say "I do" - here's our journey together
+          {t('story.subtitle')}
         </p>
       </div>
 
-      {/* Timeline */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="relative">
-          {/* Vertical Line */}
           <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-rose-300 hidden md:block" />
-
-          {/* Timeline Items */}
           {timelineItems.map((item, index) => (
             <div key={index} className="mb-12 relative">
-              {/* Year Badge - Center on desktop */}
               <div className="md:absolute md:left-1/2 md:transform md:-translate-x-1/2 mb-4 md:mb-0 md:-translate-y-2">
                 <div className="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-bold text-lg shadow-lg">
                   {item.year}
                 </div>
               </div>
-
-              {/* Content Card - Alternating sides on desktop */}
-              <div
-                className={`md:w-[calc(50%-3rem)] ${
-                  index % 2 === 0 ? 'md:ml-0' : 'md:ml-auto'
-                } mt-12 md:mt-0`}
-              >
+              <div className={`md:w-[calc(50%-3rem)] ${index % 2 === 0 ? 'md:ml-0' : 'md:ml-auto'} mt-12 md:mt-0`}>
                 <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow">
-                  {/* Photo placeholder - uncomment when you add photos */}
-                  {/* {item.image && (
+                  {item.image && (
                     <div className="mb-6 rounded-lg overflow-hidden">
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        width={400}
-                        height={300}
-                        className="w-full h-64 object-cover"
-                      />
+                      <Image src={item.image} alt={t(item.titleKey)} width={400} height={300} className="w-full h-64 object-cover" />
                     </div>
-                  )} */}
-
-                  {/* Photo placeholder visual */}
-                  <div className="mb-6 rounded-lg overflow-hidden bg-gradient-to-br from-rose-200 to-pink-200 h-64 flex items-center justify-center">
-                    <div className="text-center text-rose-700">
-                      <Heart className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                      <p className="text-sm">Add your photo here</p>
-                    </div>
-                  </div>
-
-                  <h3 className="font-serif text-2xl font-bold text-gray-900 mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">{item.description}</p>
+                  )}
+                  <h3 className="font-serif text-2xl font-bold text-gray-900 mb-3">{t(item.titleKey)}</h3>
+                  <p className="text-gray-600 leading-relaxed">{t(item.descKey)}</p>
                 </div>
               </div>
-
-              {/* Dot on timeline - hidden on mobile */}
               <div className="hidden md:block absolute left-1/2 top-0 transform -translate-x-1/2 translate-y-12">
                 <div className="w-4 h-4 bg-rose-600 rounded-full border-4 border-white shadow" />
               </div>
@@ -156,15 +59,10 @@ export default function StoryPage() {
         </div>
       </div>
 
-      {/* Closing Message */}
       <div className="bg-white py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="font-serif text-3xl font-bold text-gray-900 mb-4">
-            And the adventure continues...
-          </h2>
-          <p className="text-xl text-gray-600 mb-8">
-            We can't wait to write the next chapter with all of you by our side.
-          </p>
+          <h2 className="font-serif text-3xl font-bold text-gray-900 mb-4">{t('story.closing.heading')}</h2>
+          <p className="text-xl text-gray-600 mb-8">{t('story.closing.body')}</p>
           <Heart className="w-12 h-12 mx-auto text-rose-500 fill-current" />
         </div>
       </div>
