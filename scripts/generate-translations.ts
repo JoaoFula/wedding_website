@@ -30,20 +30,19 @@ type Translations = Record<string, string>
 type Cache = Record<string, Record<string, string>> // cache[locale][key] = english source value when translated
 
 async function translateBatch(texts: string[], targetLang: string): Promise<string[]> {
-  const params = new URLSearchParams()
-  params.append('auth_key', API_KEY!)
-  params.append('target_lang', targetLang)
-  params.append('source_lang', 'EN')
-  params.append('tag_handling', 'xml')
-  params.append('ignore_tags', 'keep')
-  for (const text of texts) {
-    params.append('text', text)
-  }
+  const body = JSON.stringify({
+    text: texts,
+    target_lang: targetLang,
+    source_lang: 'EN',
+  })
 
   const response = await fetch('https://api-free.deepl.com/v2/translate', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params.toString(),
+    headers: {
+      'Authorization': `DeepL-Auth-Key ${API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body,
   })
 
   if (!response.ok) {
