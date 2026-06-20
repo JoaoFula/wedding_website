@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { Heart, CheckCircle, AlertCircle, LogOut } from 'lucide-react'
 import { sanitizeText } from '@/utils/validation'
+import { useTranslation } from '@/components/LanguageProvider'
 
 interface UserSession {
   username: string
@@ -28,6 +29,7 @@ interface UserSession {
 }
 
 export default function RSVPPage() {
+  const { t } = useTranslation()
   const router = useRouter()
 
   // Auth state
@@ -179,7 +181,7 @@ export default function RSVPPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
         <div className="text-center">
           <Heart className="w-16 h-16 mx-auto mb-4 text-rose-500 fill-current animate-pulse" />
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">{t('rsvp.loading')}</p>
         </div>
       </div>
     )
@@ -192,22 +194,22 @@ export default function RSVPPage() {
         <div className="text-center mb-12">
           <Heart className="w-16 h-16 mx-auto mb-4 text-rose-500 fill-current" />
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-            RSVP to Our Wedding
+            {t('rsvp.heading')}
           </h1>
           <p className="text-lg text-gray-600 mb-2">
-            We'd love to know if you can join us on our special day!
+            {t('rsvp.subtitle')}
           </p>
           {userSession && (
             <div className="flex items-center justify-center gap-4">
               <p className="text-sm text-gray-500">
-                Logged in as: <span className="font-semibold">{userSession.guestName}</span>
+                {t('rsvp.loggedInAs')} <span className="font-semibold">{userSession.guestName}</span>
               </p>
               <button
                 onClick={handleLogout}
                 className="text-sm text-rose-600 hover:underline inline-flex items-center gap-1"
               >
                 <LogOut className="w-4 h-4" />
-                Logout
+                {t('common.logout')}
               </button>
             </div>
           )}
@@ -218,9 +220,9 @@ export default function RSVPPage() {
           <div className="mb-8 bg-green-50 border border-green-200 rounded-lg p-4 flex items-start gap-3">
             <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-green-900">RSVP Submitted Successfully!</h3>
+              <h3 className="font-semibold text-green-900">{t('rsvp.success.heading')}</h3>
               <p className="text-green-700 text-sm mt-1">
-                Thank you for your response. We can't wait to celebrate with you!
+                {t('rsvp.success.body')}
               </p>
             </div>
           </div>
@@ -231,7 +233,7 @@ export default function RSVPPage() {
           <div className="mb-8 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
             <AlertCircle className="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-red-900">Error Submitting RSVP</h3>
+              <h3 className="font-semibold text-red-900">{t('rsvp.error.heading')}</h3>
               <p className="text-red-700 text-sm mt-1">{errorMessage}</p>
             </div>
           </div>
@@ -242,7 +244,7 @@ export default function RSVPPage() {
           {/* Name Field */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-              Full Name <span className="text-rose-600">*</span>
+              {t('rsvp.field.name')} <span className="text-rose-600">*</span>
             </label>
             <input
               type="text"
@@ -252,14 +254,14 @@ export default function RSVPPage() {
               value={formData.name}
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-              placeholder="Your full name"
+              placeholder={t('rsvp.field.name.placeholder')}
             />
           </div>
 
           {/* Attending Field */}
           <div>
             <label htmlFor="attending" className="block text-sm font-medium text-gray-700 mb-2">
-              Will you be attending? <span className="text-rose-600">*</span>
+              {t('rsvp.field.attending')} <span className="text-rose-600">*</span>
             </label>
             <select
               id="attending"
@@ -271,8 +273,8 @@ export default function RSVPPage() {
               }
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
             >
-              <option value="true">Yes, I'll be there!</option>
-              <option value="false">Sorry, I can't make it</option>
+              <option value="true">{t('rsvp.field.attending.yes')}</option>
+              <option value="false">{t('rsvp.field.attending.no')}</option>
             </select>
           </div>
 
@@ -282,7 +284,7 @@ export default function RSVPPage() {
               {/* Plus One Name */}
               <div>
                 <label htmlFor="plusOneName" className="block text-sm font-medium text-gray-700 mb-2">
-                  Plus One Name (if applicable)
+                  {t('rsvp.field.plusOne')}
                 </label>
                 <input
                   type="text"
@@ -291,14 +293,14 @@ export default function RSVPPage() {
                   value={formData.plusOneName}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  placeholder="Guest's name (optional)"
+                  placeholder={t('rsvp.field.plusOne.placeholder')}
                 />
               </div>
 
               {/* Dietary Restrictions */}
               <div>
                 <label htmlFor="dietaryRestrictions" className="block text-sm font-medium text-gray-700 mb-2">
-                  Dietary Restrictions or Allergies
+                  {t('rsvp.field.dietary')}
                 </label>
                 <textarea
                   id="dietaryRestrictions"
@@ -307,7 +309,7 @@ export default function RSVPPage() {
                   value={formData.dietaryRestrictions}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  placeholder="Please let us know about any dietary restrictions or allergies"
+                  placeholder={t('rsvp.field.dietary.placeholder')}
                 />
               </div>
 
@@ -322,14 +324,14 @@ export default function RSVPPage() {
                   className="mt-1 h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded"
                 />
                 <label htmlFor="accommodationNeeded" className="ml-3 text-sm text-gray-700">
-                  I would like help with accommodation
+                  {t('rsvp.field.accommodation')}
                 </label>
               </div>
 
               {/* Spotify Song Suggestion */}
               <div>
                 <label htmlFor="spotifySongSuggestion" className="block text-sm font-medium text-gray-700 mb-2">
-                  Song Suggestion for Our Playlist
+                  {t('rsvp.field.song')}
                 </label>
                 <input
                   type="text"
@@ -338,17 +340,17 @@ export default function RSVPPage() {
                   value={formData.spotifySongSuggestion}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  placeholder="Song name - Artist (optional)"
+                  placeholder={t('rsvp.field.song.placeholder')}
                 />
                 <p className="mt-1 text-sm text-gray-500">
-                  Suggest a song you'd love to hear at the wedding!
+                  {t('rsvp.field.song.hint')}
                 </p>
               </div>
 
               {/* Additional Notes */}
               <div>
                 <label htmlFor="additionalNotes" className="block text-sm font-medium text-gray-700 mb-2">
-                  Additional Notes or Messages
+                  {t('rsvp.field.notes')}
                 </label>
                 <textarea
                   id="additionalNotes"
@@ -357,7 +359,7 @@ export default function RSVPPage() {
                   value={formData.additionalNotes}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  placeholder="Any special requests or messages for us?"
+                  placeholder={t('rsvp.field.notes.placeholder')}
                 />
               </div>
             </>
@@ -370,7 +372,7 @@ export default function RSVPPage() {
               disabled={isSubmitting}
               className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg font-semibold text-lg transition-colors disabled:cursor-not-allowed"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit RSVP'}
+              {isSubmitting ? t('rsvp.submitting') : t('rsvp.submit')}
             </button>
           </div>
         </form>
@@ -378,7 +380,7 @@ export default function RSVPPage() {
         {/* Additional Info */}
         <div className="mt-8 text-center text-sm text-gray-600">
           <p>
-            Need to update your RSVP? Contact us at{' '}
+            {t('rsvp.contact')}{' '}
             <a href="mailto:hsifula@gmail.com" className="text-rose-600 hover:underline">
               hsifula@gmail.com
             </a>
