@@ -1,168 +1,184 @@
-/**
- * Photos Page
- *
- * Integration with Google Drive for photo uploads
- * Features:
- * - Instructions for guests to upload photos
- * - Link to Google Drive folder
- * - Embedded photo viewer (optional)
- *
- * Instructions:
- * 1. Create a Google Drive folder for your wedding photos
- * 2. Set sharing permissions to "Anyone with the link can upload"
- * 3. Copy the folder link and update the GOOGLE_DRIVE_LINK below
- */
+'use client'
 
-import { Camera, Upload, Heart } from 'lucide-react'
+import { Camera, Upload, Lock } from 'lucide-react'
+import Image from 'next/image'
+import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from '@/components/LanguageProvider'
+
+interface Photo {
+  id: string
+  filename: string
+  uploadedBy: string
+  uploadedAt: string
+  caption?: string
+}
 
 export default function PhotosPage() {
-  // TODO: Replace this with your actual Google Drive folder link
-  const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/13uinM1Cb8-Q9RZOI5jrPWf_YJuNdEuEw?usp=drive_link'
+  const { t } = useTranslation()
+  const [photos, setPhotos] = useState<Photo[]>([])
+  const [uploading, setUploading] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const [uploadSuccess, setUploadSuccess] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('wedding_auth_token')
+    if (token) {
+      setIsLoggedIn(true)
+      fetchPhotos(token)
+    }
+  }, [])
+
+  const fetchPhotos = async (token: string) => {
+    try {
+      const response = await fetch('/api/photos', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (response.ok) {
+        const data = await response.json()
+        setPhotos(data.photos || [])
+      }
+    } catch {
+      // photos remain empty
+    }
+  }
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+
+    const token = localStorage.getItem('wedding_auth_token')
+    if (!token) return
+
+    setUploading(true)
+    setUploadError(null)
+    setUploadSuccess(false)
+
+    try {
+      const formData = new FormData()
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i])
+      }
+
+      const response = await fetch('/api/photos', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      })
+
+      if (response.ok) {
+        setUploadSuccess(true)
+        fetchPhotos(token)
+      } else {
+        const data = await response.json()
+        setUploadError(data.error || t('photos.upload.error.generic'))
+      }
+    } catch {
+      setUploadError(t('photos.upload.error.generic'))
+    } finally {
+      setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 flex items-center justify-center px-4">
+        <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
+          <Lock className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('photos.login.heading')}</h2>
+          <p className="text-gray-600 mb-6">{t('photos.login.body')}</p>
+          <a
+            href="/login?redirect=/photos"
+            className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+          >
+            {t('photos.login.button')}
+          </a>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
-      {/* Header */}
       <div className="text-center py-16 px-4">
         <Camera className="w-16 h-16 mx-auto mb-6 text-rose-500" />
         <h1 className="font-serif text-5xl sm:text-6xl font-bold text-gray-900 mb-4">
-          Wedding Photos
+          {t('photos.heading')}
         </h1>
         <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-          Share your favorite moments from our special day
+          {t('photos.subtitle')}
         </p>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-8">
-        {/* Upload Instructions */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <Upload className="w-8 h-8 text-rose-600" />
-            <h2 className="font-serif text-3xl font-bold text-gray-900">Upload Your Photos</h2>
-          </div>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-8 text-center">
+          <Upload className="w-12 h-12 mx-auto mb-4 text-rose-500" />
+          <h2 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('photos.upload.heading')}</h2>
+          <p className="text-gray-600 mb-6">{t('photos.upload.body')}</p>
 
-          <p className="text-gray-600 mb-6">
-            We'd love to see the wedding through your eyes! Please upload any photos or videos
-            you took during the celebration to our shared Google Drive folder.
-          </p>
-
-          <div className="space-y-4 mb-8">
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center">
-                <span className="text-rose-600 font-bold">1</span>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Click the button below</h3>
-                <p className="text-gray-600 text-sm">
-                  This will open our shared Google Drive folder
-                </p>
-              </div>
+          {uploadSuccess && (
+            <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg text-green-800">
+              {t('photos.upload.success')}
             </div>
-
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center">
-                <span className="text-rose-600 font-bold">2</span>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Upload your photos</h3>
-                <p className="text-gray-600 text-sm">
-                  Click "New" → "File upload" or simply drag and drop your photos
-                </p>
-              </div>
+          )}
+          {uploadError && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800">
+              {uploadError}
             </div>
+          )}
 
-            <div className="flex gap-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center">
-                <span className="text-rose-600 font-bold">3</span>
-              </div>
-              <div>
-                <h3 className="font-semibold text-gray-900 mb-1">That's it!</h3>
-                <p className="text-gray-600 text-sm">
-                  We'll be able to see all the wonderful photos you share
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <a
-            href={GOOGLE_DRIVE_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors"
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFileUpload}
+            className="hidden"
+            id="photo-upload"
+          />
+          <label
+            htmlFor="photo-upload"
+            className={`inline-flex items-center gap-2 px-8 py-3 rounded-lg font-semibold cursor-pointer transition-colors ${
+              uploading
+                ? 'bg-gray-400 text-white cursor-not-allowed'
+                : 'bg-rose-600 hover:bg-rose-700 text-white'
+            }`}
           >
-            <Camera className="w-5 h-5" />
-            Upload to Google Drive
-          </a>
+            <Upload className="w-5 h-5" />
+            {uploading ? t('photos.upload.uploading') : t('photos.upload.button')}
+          </label>
+        </div>
 
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <p className="text-sm text-gray-700">
-              <strong>Note:</strong> You may need to sign in to your Google account to upload photos.
-              Don't worry - we can't see your personal information, only the photos you upload to our folder!
-            </p>
+        {photos.length === 0 ? (
+          <div className="text-center py-16">
+            <Camera className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+            <h3 className="text-xl font-semibold text-gray-500 mb-2">{t('photos.empty.heading')}</h3>
+            <p className="text-gray-400">{t('photos.empty.body')}</p>
           </div>
-        </section>
-
-        {/* Alternative: Google Photos */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">
-            Alternative: Google Photos
-          </h2>
-
-          <p className="text-gray-600 mb-4">
-            Prefer Google Photos? We also have a shared album there!
-          </p>
-
-          <a
-            href="https://photos.app.goo.gl/C4LK4Fb75xfg644X6"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-rose-600 px-6 py-3 rounded-lg font-semibold border-2 border-rose-600 transition-colors"
-          >
-            <Camera className="w-5 h-5" />
-            Open Google Photos Album
-          </a>
-
-          <p className="text-sm text-gray-500 mt-4">
-            Update the link above with your actual Google Photos shared album link
-          </p>
-        </section>
-
-        {/* Photo Guidelines */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
-          <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">
-            Photo Guidelines
-          </h2>
-
-          <div className="space-y-3 text-gray-600">
-            <div className="flex items-start gap-2">
-              <Heart className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <p>Upload as many photos as you'd like - we want to see them all!</p>
-            </div>
-            <div className="flex items-start gap-2">
-              <Heart className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <p>Videos are welcome too! Share those candid moments and speeches.</p>
-            </div>
-            <div className="flex items-start gap-2">
-              <Heart className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <p>Original quality is preferred - don't worry about file size!</p>
-            </div>
-            <div className="flex items-start gap-2">
-              <Heart className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
-              <p>Please upload within a week or two while the memories are fresh!</p>
-            </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {photos.map((photo) => (
+              <div key={photo.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                <div className="aspect-square relative">
+                  <Image
+                    src={`/api/photos/${photo.id}`}
+                    alt={photo.caption || t('photos.photo.alt')}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                {photo.caption && (
+                  <div className="p-3">
+                    <p className="text-sm text-gray-600">{photo.caption}</p>
+                    <p className="text-xs text-gray-400 mt-1">{photo.uploadedBy}</p>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-        </section>
-
-        {/* Thank You Message */}
-        <section className="bg-rose-50 rounded-xl p-8 text-center">
-          <Heart className="w-12 h-12 mx-auto mb-4 text-rose-500 fill-current" />
-          <h2 className="font-serif text-2xl font-bold text-gray-900 mb-3">
-            Thank You for Sharing!
-          </h2>
-          <p className="text-gray-600">
-            We can't wait to relive all the special moments through your photos.
-            Your memories will help make our wedding album complete!
-          </p>
-        </section>
+        )}
       </div>
     </div>
   )
