@@ -138,7 +138,7 @@ export default function DetailsPage() {
           <div className="rounded-lg overflow-hidden">
             <iframe
               title="Wedding Dance Playlist"
-              src="https://www.youtube-nocookie.com/embed?listType=playlist&list=PLVyVMYnAezTg"
+              src="https://www.youtube-nocookie.com/embed/videoseries?list=PLVyVMYnAezTg"
               width="100%"
               height="450"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
