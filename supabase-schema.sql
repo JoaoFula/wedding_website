@@ -71,8 +71,12 @@ CREATE TABLE IF NOT EXISTS guests (
     accommodation_needed BOOLEAN NOT NULL DEFAULT false,
     spotify_song_suggestion TEXT,
     additional_notes TEXT,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    admin_seen_at TIMESTAMP WITH TIME ZONE,
     -- Link to the guest credential that submitted this RSVP
-    CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES guest_credentials(username) ON DELETE CASCADE
+    CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES guest_credentials(username) ON DELETE CASCADE,
+    -- Ensure each guest can only have one RSVP row (enforces upsert behaviour)
+    CONSTRAINT guests_username_unique UNIQUE (username)
 );
 
 -- Enable Row Level Security (RLS)
@@ -157,6 +161,21 @@ CREATE TRIGGER on_rsvp_submitted
     FOR EACH ROW
     EXECUTE FUNCTION update_has_rsvped();
 
+-- Trigger to stamp updated_at on every RSVP update
+CREATE OR REPLACE FUNCTION set_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS on_rsvp_updated ON guests;
+CREATE TRIGGER on_rsvp_updated
+    BEFORE UPDATE ON guests
+    FOR EACH ROW
+    EXECUTE FUNCTION set_updated_at();
+
 -- ============================================================================
 -- POST-SETUP INSTRUCTIONS
 -- ============================================================================
@@ -185,3 +204,41 @@ CREATE TRIGGER on_rsvp_submitted
 --
 -- NOTE: You no longer need to create users in Supabase Auth!
 -- All authentication (guests and admin) uses the guest_credentials table.
+
+-- ============================================================================
+-- MIGRATION: Add unique constraint on guests.username (if upgrading existing DB)
+-- ============================================================================
+-- If you already have an existing guests table, run this in the SQL editor:
+--
+--   -- First, remove duplicate rows, keeping only the most recent per username:
+--   DELETE FROM guests
+--   WHERE id NOT IN (
+--       SELECT DISTINCT ON (username) id
+--       FROM guests
+--       ORDER BY username, created_at DESC
+--   );
+--
+--   -- Then add the unique constraint:
+--   ALTER TABLE guests ADD CONSTRAINT guests_username_unique UNIQUE (username);
+
+-- ============================================================================
+-- MIGRATION: Add updated_at and admin_seen_at columns (if upgrading existing DB)
+-- ============================================================================
+-- Run this in the Supabase SQL editor if you already have an existing guests table:
+--
+--   ALTER TABLE guests ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW();
+--   ALTER TABLE guests ADD COLUMN IF NOT EXISTS admin_seen_at TIMESTAMPTZ;
+--
+--   CREATE OR REPLACE FUNCTION set_updated_at()
+--   RETURNS TRIGGER AS $$
+--   BEGIN
+--       NEW.updated_at = NOW();
+--       RETURN NEW;
+--   END;
+--   $$ LANGUAGE plpgsql;
+--
+--   DROP TRIGGER IF EXISTS on_rsvp_updated ON guests;
+--   CREATE TRIGGER on_rsvp_updated
+--       BEFORE UPDATE ON guests
+--       FOR EACH ROW
+--       EXECUTE FUNCTION set_updated_at();
