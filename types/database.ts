@@ -27,6 +27,8 @@ export interface Guest {
   accommodation_needed: boolean
   spotify_song_suggestion?: string
   additional_notes?: string
+  updated_at: string
+  admin_seen_at?: string
 }
 
 /**
