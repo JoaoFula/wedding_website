@@ -134,6 +134,18 @@ export default function DetailsPage() {
               className="border-0"
             />
           </div>
+          <p className="text-gray-600 mt-8 mb-6">{t('details.playlist.dance')}</p>
+          <div className="rounded-lg overflow-hidden">
+            <iframe
+              title="Wedding Dance Playlist"
+              src="https://www.youtube-nocookie.com/embed?listType=playlist&list=PLVyVMYnAezTg"
+              width="100%"
+              height="450"
+              loading="lazy"
+              allowFullScreen
+              className="border-0"
+            />
+          </div>
         </section>
 
         {/* FAQ */}
