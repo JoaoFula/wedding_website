@@ -43,7 +43,6 @@ export default function RSVPPage() {
     plusOneName: '',
     dietaryRestrictions: '',
     accommodationNeeded: false,
-    spotifySongSuggestion: '',
     additionalNotes: '',
   })
 
@@ -120,7 +119,6 @@ export default function RSVPPage() {
       const sanitizedName = sanitizeText(formData.name)
       const sanitizedPlusOne = formData.plusOneName ? sanitizeText(formData.plusOneName) : null
       const sanitizedDietary = formData.dietaryRestrictions ? sanitizeText(formData.dietaryRestrictions) : null
-      const sanitizedSong = formData.spotifySongSuggestion ? sanitizeText(formData.spotifySongSuggestion) : null
       const sanitizedNotes = formData.additionalNotes ? sanitizeText(formData.additionalNotes) : null
 
       if (!sanitizedName || sanitizedName.length < 2) {
@@ -139,7 +137,6 @@ export default function RSVPPage() {
         plus_one_name: sanitizedPlusOne,
         dietary_restrictions: sanitizedDietary,
         accommodation_needed: formData.accommodationNeeded,
-        spotify_song_suggestion: sanitizedSong,
         additional_notes: sanitizedNotes,
       })
 
@@ -161,7 +158,6 @@ export default function RSVPPage() {
         plusOneName: '',
         dietaryRestrictions: '',
         accommodationNeeded: false,
-        spotifySongSuggestion: '',
         additionalNotes: '',
       })
     } catch (error) {
@@ -328,22 +324,32 @@ export default function RSVPPage() {
                 </label>
               </div>
 
-              {/* Spotify Song Suggestion */}
+              {/* Spotify Playlist */}
               <div>
-                <label htmlFor="spotifySongSuggestion" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('rsvp.field.song')}
-                </label>
-                <input
-                  type="text"
-                  id="spotifySongSuggestion"
-                  name="spotifySongSuggestion"
-                  value={formData.spotifySongSuggestion}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  placeholder={t('rsvp.field.song.placeholder')}
-                />
-                <p className="mt-1 text-sm text-gray-500">
-                  {t('rsvp.field.song.hint')}
+                <p className="block text-sm font-medium text-gray-700 mb-3">
+                  {t('rsvp.playlist.heading')}
+                </p>
+                <div className="rounded-lg overflow-hidden mb-3">
+                  <iframe
+                    title="Wedding Playlist"
+                    src="https://open.spotify.com/embed/playlist/1q7gd1czHuYwJ3RSd8fklx"
+                    width="100%"
+                    height="352"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    className="border-0"
+                  />
+                </div>
+                <a
+                  href={process.env.NEXT_PUBLIC_SPOTIFY_INVITE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                >
+                  {t('rsvp.playlist.button')}
+                </a>
+                <p className="mt-2 text-sm text-gray-500">
+                  {t('rsvp.playlist.hint')}
                 </p>
               </div>
 
