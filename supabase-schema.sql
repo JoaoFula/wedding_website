@@ -172,7 +172,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS on_rsvp_updated ON guests;
 CREATE TRIGGER on_rsvp_updated
-    BEFORE UPDATE ON guests
+    BEFORE UPDATE OF name, attending, plus_one_name, dietary_restrictions, accommodation_needed, spotify_song_suggestion, additional_notes ON guests
     FOR EACH ROW
     EXECUTE FUNCTION set_updated_at();
 
@@ -239,6 +239,6 @@ CREATE TRIGGER on_rsvp_updated
 --
 --   DROP TRIGGER IF EXISTS on_rsvp_updated ON guests;
 --   CREATE TRIGGER on_rsvp_updated
---       BEFORE UPDATE ON guests
+--       BEFORE UPDATE OF name, attending, plus_one_name, dietary_restrictions, accommodation_needed, spotify_song_suggestion, additional_notes ON guests
 --       FOR EACH ROW
 --       EXECUTE FUNCTION set_updated_at();
