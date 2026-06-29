@@ -17,7 +17,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
 import { Guest, GuestCredential } from '@/types/database'
-import { LogOut, Users, UserCheck, UserX } from 'lucide-react'
+import { LogOut, Users, UserCheck, UserX, AlertTriangle, X } from 'lucide-react'
 
 interface UserSession {
   username: string
@@ -116,6 +116,17 @@ export default function AdminPage() {
     }
   }
 
+  const dismissGuest = async (username: string) => {
+    const now = new Date().toISOString()
+    setGuests((prev) =>
+      prev.map((g) => (g.username === username ? { ...g, admin_seen_at: now } : g))
+    )
+    await supabase
+      .from('guests')
+      .update({ admin_seen_at: now })
+      .eq('username', username)
+  }
+
   /**
    * Handle logout
    */
@@ -139,6 +150,9 @@ export default function AdminPage() {
   const notAttending = guests.filter((g) => !g.attending).length
   const totalCredentials = guestCredentials.length
   const rsvpedCount = guestCredentials.filter((g) => g.has_rsvped).length
+  const unseenCount = guests.filter(
+    (g) => g.admin_seen_at == null || g.updated_at > g.admin_seen_at
+  ).length
 
   // Loading state
   if (isLoading) {
@@ -181,7 +195,7 @@ export default function AdminPage() {
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
-              RSVPs ({totalGuests})
+              RSVPs ({totalGuests}){unseenCount > 0 ? ` · ${unseenCount} new` : ''}
             </button>
             <button
               onClick={() => setActiveTab('guests')}
@@ -278,46 +292,68 @@ export default function AdminPage() {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Accommodation
                       </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        New
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredGuests.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                        <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
                           No RSVPs yet
                         </td>
                       </tr>
                     ) : (
-                      filteredGuests.map((guest) => (
-                        <tr key={guest.id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                            {guest.username}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {guest.name}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span
-                              className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                guest.attending
-                                  ? 'bg-green-100 text-green-800'
-                                  : 'bg-red-100 text-red-800'
-                              }`}
-                            >
-                              {guest.attending ? 'Yes' : 'No'}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                            {guest.plus_one_name || '-'}
-                          </td>
-                          <td className="px-6 py-4 text-sm text-gray-600">
-                            {guest.dietary_restrictions || '-'}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                            {guest.accommodation_needed ? 'Yes' : 'No'}
-                          </td>
-                        </tr>
-                      ))
+                      filteredGuests.map((guest) => {
+                        const isUnseen = guest.admin_seen_at == null || guest.updated_at > guest.admin_seen_at
+                        return (
+                          <tr key={guest.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                              {guest.username}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                              <span className="inline-flex items-center gap-1">
+                                {isUnseen && (
+                                  <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
+                                )}
+                                {guest.name}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span
+                                className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                  guest.attending
+                                    ? 'bg-green-100 text-green-800'
+                                    : 'bg-red-100 text-red-800'
+                                }`}
+                              >
+                                {guest.attending ? 'Yes' : 'No'}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                              {guest.plus_one_name || '-'}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-gray-600">
+                              {guest.dietary_restrictions || '-'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                              {guest.accommodation_needed ? 'Yes' : 'No'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              {isUnseen && (
+                                <button
+                                  onClick={() => dismissGuest(guest.username)}
+                                  className="p-1 rounded hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                                  title="Mark as seen"
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        )
+                      })
                     )}
                   </tbody>
                 </table>
