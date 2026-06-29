@@ -121,10 +121,16 @@ export default function AdminPage() {
     setGuests((prev) =>
       prev.map((g) => (g.username === username ? { ...g, admin_seen_at: now } : g))
     )
-    await supabase
+    const { error } = await supabase
       .from('guests')
       .update({ admin_seen_at: now })
       .eq('username', username)
+    if (error) {
+      console.error('Failed to dismiss guest:', error)
+      setGuests((prev) =>
+        prev.map((g) => (g.username === username ? { ...g, admin_seen_at: undefined } : g))
+      )
+    }
   }
 
   /**
