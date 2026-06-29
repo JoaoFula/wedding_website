@@ -141,6 +141,7 @@ export default function DetailsPage() {
               src="https://www.youtube-nocookie.com/embed?listType=playlist&list=PLVyVMYnAezTg"
               width="100%"
               height="450"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               loading="lazy"
               allowFullScreen
               className="border-0"
