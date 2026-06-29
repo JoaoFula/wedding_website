@@ -137,11 +137,12 @@ export default function DetailsPage() {
           <p className="text-gray-600 mt-8 mb-6">{t('details.playlist.dance')}</p>
           <div className="rounded-lg overflow-hidden">
             <iframe
-              title="Wedding Dance Playlist"
-              src="https://www.youtube-nocookie.com/embed/videoseries?list=PLVyVMYnAezTg"
+              title="YouTube video player"
+              src="https://www.youtube.com/embed/videoseries?si=r0X5Uu2kZ-40IlS7&list=PLVyVMYnAezTg"
               width="100%"
               height="450"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               loading="lazy"
               allowFullScreen
               className="border-0"
