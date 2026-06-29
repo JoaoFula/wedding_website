@@ -1,6 +1,6 @@
 'use client'
 
-import { MapPin, Clock, Hotel, Info, Navigation } from 'lucide-react'
+import { MapPin, Clock, Hotel, Info, Navigation, Music } from 'lucide-react'
 import { useTranslation } from '@/components/LanguageProvider'
 
 export default function DetailsPage() {
@@ -113,6 +113,26 @@ export default function DetailsPage() {
           <p className="text-gray-600 mb-6">{t('details.accommodation.intro')}</p>
           <div className="mt-6 p-4 bg-blue-50 rounded-lg">
             <p className="text-sm text-gray-700"><strong>{t('details.accommodation.help')}</strong></p>
+          </div>
+        </section>
+
+        {/* Playlist */}
+        <section className="bg-white rounded-xl shadow-lg p-8">
+          <div className="flex items-center gap-3 mb-4">
+            <Music className="w-8 h-8 text-rose-600" />
+            <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.playlist.heading')}</h2>
+          </div>
+          <p className="text-gray-600 mb-6">{t('details.playlist.subtitle')}</p>
+          <div className="rounded-lg overflow-hidden">
+            <iframe
+              title="Wedding Playlist"
+              src="https://open.spotify.com/embed/playlist/1q7gd1czHuYwJ3RSd8fklx"
+              width="100%"
+              height="450"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              className="border-0"
+            />
           </div>
         </section>
 
