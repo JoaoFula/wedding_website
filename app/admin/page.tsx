@@ -117,18 +117,34 @@ export default function AdminPage() {
   }
 
   const dismissGuest = async (username: string) => {
-    const now = new Date().toISOString()
+    // Optimistic: hide badge immediately
     setGuests((prev) =>
-      prev.map((g) => (g.username === username ? { ...g, admin_seen_at: now } : g))
+      prev.map((g) => (g.username === username ? { ...g, admin_seen_at: new Date().toISOString() } : g))
     )
     const { error } = await supabase
       .from('guests')
-      .update({ admin_seen_at: now })
+      .update({ admin_seen_at: new Date().toISOString() })
       .eq('username', username)
     if (error) {
       console.error('Failed to dismiss guest:', error)
       setGuests((prev) =>
         prev.map((g) => (g.username === username ? { ...g, admin_seen_at: undefined } : g))
+      )
+      return
+    }
+    // Fetch the row back to get the real updated_at/admin_seen_at stamped by the DB trigger
+    const { data } = await supabase
+      .from('guests')
+      .select('updated_at, admin_seen_at')
+      .eq('username', username)
+      .single()
+    if (data) {
+      setGuests((prev) =>
+        prev.map((g) =>
+          g.username === username
+            ? { ...g, updated_at: data.updated_at, admin_seen_at: data.admin_seen_at }
+            : g
+        )
       )
     }
   }
