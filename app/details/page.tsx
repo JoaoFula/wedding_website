@@ -19,7 +19,7 @@ export default function DetailsPage() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-12">
         {/* Venue */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
             <MapPin className="w-8 h-8 text-rose-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.venue.heading')}</h2>
@@ -57,7 +57,7 @@ export default function DetailsPage() {
         </section>
 
         {/* Schedule */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
             <Clock className="w-8 h-8 text-rose-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.schedule.heading')}</h2>
@@ -83,7 +83,7 @@ export default function DetailsPage() {
         </section>
 
         {/* Dress Code */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
             <Info className="w-8 h-8 text-rose-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.dresscode.heading')}</h2>
@@ -105,7 +105,7 @@ export default function DetailsPage() {
         </section>
 
         {/* Accommodation */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
             <Hotel className="w-8 h-8 text-rose-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.accommodation.heading')}</h2>
@@ -117,7 +117,7 @@ export default function DetailsPage() {
         </section>
 
         {/* Playlist */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-4">
             <Music className="w-8 h-8 text-rose-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.playlist.heading')}</h2>
@@ -151,7 +151,7 @@ export default function DetailsPage() {
         </section>
 
         {/* FAQ */}
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <h2 className="font-serif text-3xl font-bold text-gray-900 mb-6">{t('details.faq.heading')}</h2>
           <div className="space-y-6">
             {[
@@ -171,7 +171,7 @@ export default function DetailsPage() {
         </section>
 
         {/* Contact */}
-        <section className="bg-rose-50 rounded-xl p-8 text-center">
+        <section className="bg-rose-50 rounded-xl p-8 text-center content-card">
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">{t('details.contact.heading')}</h2>
           <p className="text-gray-600 mb-6">{t('details.contact.body')}</p>
           <a

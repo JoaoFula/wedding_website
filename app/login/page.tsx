@@ -128,7 +128,7 @@ export default function LoginPage() {
         </div>
 
         {/* Login Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-lg p-8 space-y-6 content-card">
           {/* Error Message */}
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3">
@@ -213,7 +213,7 @@ export default function LoginPage() {
         </div>
 
         {/* Info Box */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4 content-card">
           <p className="text-sm text-blue-900 font-semibold mb-2">{t('login.why.heading')}</p>
           <p className="text-sm text-blue-800">
             {t('login.why.body')}

@@ -22,7 +22,7 @@ export default function PhotosPage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-8">
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
             <Upload className="w-8 h-8 text-rose-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('photos.upload.heading')}</h2>
@@ -77,7 +77,7 @@ export default function PhotosPage() {
           </div>
         </section>
 
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">{t('photos.alt.heading')}</h2>
           <p className="text-gray-600 mb-4">{t('photos.alt.body')}</p>
           <a
@@ -91,7 +91,7 @@ export default function PhotosPage() {
           </a>
         </section>
 
-        <section className="bg-white rounded-xl shadow-lg p-8">
+        <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">{t('photos.guidelines.heading')}</h2>
           <div className="space-y-3 text-gray-600">
             {(['1', '2', '3', '4'] as const).map(n => (
@@ -103,7 +103,7 @@ export default function PhotosPage() {
           </div>
         </section>
 
-        <section className="bg-rose-50 rounded-xl p-8 text-center">
+        <section className="bg-rose-50 rounded-xl p-8 text-center content-card">
           <Heart className="w-12 h-12 mx-auto mb-4 text-rose-500 fill-current" />
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-3">{t('photos.thanks.heading')}</h2>
           <p className="text-gray-600">{t('photos.thanks.body')}</p>

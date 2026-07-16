@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="relative">
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 text-center px-8 py-12 rounded-2xl content-card max-w-2xl mx-auto">
           <Heart className="w-16 h-16 mx-auto mb-6 text-rose-500 fill-current animate-pulse" />
           <h1 className="font-serif text-5xl sm:text-7xl font-bold text-gray-900 mb-4">
             João & Zuza
@@ -63,21 +63,21 @@ export default function Home() {
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
-            <Link href="/story" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group">
+            <Link href="/story" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group content-card">
               <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
                 <Heart className="w-8 h-8 text-rose-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.story.heading')}</h3>
               <p className="text-gray-600">{t('home.card.story.body')}</p>
             </Link>
-            <Link href="/details" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group">
+            <Link href="/details" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group content-card">
               <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
                 <MapPin className="w-8 h-8 text-rose-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.details.heading')}</h3>
               <p className="text-gray-600">{t('home.card.details.body')}</p>
             </Link>
-            <Link href="/photos" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group">
+            <Link href="/photos" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group content-card">
               <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
                 <Calendar className="w-8 h-8 text-rose-600" />
               </div>

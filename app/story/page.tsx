@@ -41,7 +41,7 @@ export default function StoryPage() {
                 </div>
               </div>
               <div className={`md:w-[calc(50%-3rem)] ${index % 2 === 0 ? 'md:ml-0' : 'md:ml-auto'} mt-12 md:mt-0`}>
-                <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow">
+                <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow content-card">
                   {item.image && (
                     <div className="mb-6 rounded-lg overflow-hidden">
                       <Image src={item.image} alt={t(item.titleKey)} width={400} height={300} className="w-full h-64 object-cover" />
@@ -59,7 +59,7 @@ export default function StoryPage() {
         </div>
       </div>
 
-      <div className="bg-white py-16 px-4">
+      <div className="bg-white py-16 px-4 content-card">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-serif text-3xl font-bold text-gray-900 mb-4">{t('story.closing.heading')}</h2>
           <p className="text-xl text-gray-600 mb-8">{t('story.closing.body')}</p>
