@@ -26,7 +26,6 @@ body::before {
   background-image: url('/background.jpg');
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   opacity: var(--bg-opacity);
   z-index: -1;
 }
