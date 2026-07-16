@@ -10,8 +10,6 @@ export default function Home() {
   return (
     <div className="relative">
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100" />
-        <div className="absolute inset-0 bg-white/40" />
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8">
           <Heart className="w-16 h-16 mx-auto mb-6 text-rose-500 fill-current animate-pulse" />
           <h1 className="font-serif text-5xl sm:text-7xl font-bold text-gray-900 mb-4">
@@ -48,7 +46,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="font-serif text-4xl font-bold text-gray-900 mb-6">
             {t('home.welcome.heading')}
@@ -62,7 +60,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             <Link href="/story" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group">

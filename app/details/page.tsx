@@ -7,7 +7,7 @@ export default function DetailsPage() {
   const { t } = useTranslation()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen">
       <div className="text-center py-16 px-4">
         <h1 className="font-serif text-5xl sm:text-6xl font-bold text-gray-900 mb-4">
           {t('details.heading')}

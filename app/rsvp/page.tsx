@@ -36,11 +36,14 @@ export default function RSVPPage() {
   const [userSession, setUserSession] = useState<UserSession | null>(null)
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
+  // Plus one name from guest credentials (set by admin)
+  const [plusOneName, setPlusOneName] = useState<string | null>(null)
+
   // Form state
   const [formData, setFormData] = useState({
     name: '',
     attending: true,
-    plusOneName: '',
+    plusOneAttending: true,
     dietaryRestrictions: '',
     accommodationNeeded: false,
     additionalNotes: '',
@@ -58,22 +61,34 @@ export default function RSVPPage() {
   useEffect(() => {
     const sessionData = localStorage.getItem('userSession')
     if (!sessionData) {
-      // No session - redirect to login
       router.push('/login?redirect=/rsvp')
       return
     }
 
-    try {
-      const session: UserSession = JSON.parse(sessionData)
-      setUserSession(session)
-      // Pre-fill name from session
-      setFormData((prev) => ({ ...prev, name: session.guestName }))
-    } catch (error) {
-      console.error('Invalid session data:', error)
-      router.push('/login?redirect=/rsvp')
-    } finally {
-      setIsCheckingAuth(false)
+    const initSession = async () => {
+      try {
+        const session: UserSession = JSON.parse(sessionData)
+        setUserSession(session)
+        setFormData((prev) => ({ ...prev, name: session.guestName }))
+
+        const supabase = createClient()
+        const { data } = await supabase
+          .from('guest_credentials')
+          .select('plus_one_name')
+          .eq('username', session.username)
+          .single()
+        if (data?.plus_one_name) {
+          setPlusOneName(data.plus_one_name)
+        }
+      } catch (error) {
+        console.error('Invalid session data:', error)
+        router.push('/login?redirect=/rsvp')
+      } finally {
+        setIsCheckingAuth(false)
+      }
     }
+
+    initSession()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -117,7 +132,6 @@ export default function RSVPPage() {
 
       // Sanitize text inputs to prevent XSS
       const sanitizedName = sanitizeText(formData.name)
-      const sanitizedPlusOne = formData.plusOneName ? sanitizeText(formData.plusOneName) : null
       const sanitizedDietary = formData.dietaryRestrictions ? sanitizeText(formData.dietaryRestrictions) : null
       const sanitizedNotes = formData.additionalNotes ? sanitizeText(formData.additionalNotes) : null
 
@@ -128,20 +142,24 @@ export default function RSVPPage() {
       // Create Supabase client
       const supabase = createClient()
 
-      // Insert the RSVP data with username
-      // Note: Supabase client uses parameterized queries, protecting against SQL injection
-      const { error } = await supabase.from('guests').insert({
-        username: userSession.username,
-        name: sanitizedName,
-        attending: formData.attending,
-        plus_one_name: sanitizedPlusOne,
-        dietary_restrictions: sanitizedDietary,
-        accommodation_needed: formData.accommodationNeeded,
-        additional_notes: sanitizedNotes,
-      })
+      // Upsert RSVP: insert or overwrite based on unique username constraint
+      // Requires UNIQUE constraint on guests.username in the database
+      const { error } = await supabase.from('guests').upsert(
+        {
+          username: userSession.username,
+          name: sanitizedName,
+          attending: formData.attending,
+          plus_one_attending: plusOneName ? formData.plusOneAttending : null,
+          dietary_restrictions: sanitizedDietary,
+          accommodation_needed: formData.accommodationNeeded,
+          additional_notes: sanitizedNotes,
+        },
+        { onConflict: 'username' }
+      )
 
       if (error) {
-        throw error
+        console.error('Supabase upsert error details:', JSON.stringify(error, null, 2))
+        throw new Error(`DB error: ${error.message || error.code || error.details || JSON.stringify(error)}`)
       }
 
       // Success!
@@ -155,7 +173,7 @@ export default function RSVPPage() {
       setFormData({
         name: userSession.guestName,
         attending: true,
-        plusOneName: '',
+        plusOneAttending: true,
         dietaryRestrictions: '',
         accommodationNeeded: false,
         additionalNotes: '',
@@ -174,7 +192,7 @@ export default function RSVPPage() {
   // Show loading while checking auth
   if (isCheckingAuth) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Heart className="w-16 h-16 mx-auto mb-4 text-rose-500 fill-current animate-pulse" />
           <p className="text-gray-600">{t('rsvp.loading')}</p>
@@ -184,7 +202,7 @@ export default function RSVPPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -254,10 +272,10 @@ export default function RSVPPage() {
             />
           </div>
 
-          {/* Attending Field */}
+          {/* Attending Field — main guest */}
           <div>
             <label htmlFor="attending" className="block text-sm font-medium text-gray-700 mb-2">
-              {t('rsvp.field.attending')} <span className="text-rose-600">*</span>
+              {t('rsvp.field.attending').replace('{name}', formData.name || t('rsvp.field.name'))} <span className="text-rose-600">*</span>
             </label>
             <select
               id="attending"
@@ -274,25 +292,31 @@ export default function RSVPPage() {
             </select>
           </div>
 
+          {/* Attending Field — plus one (only shown if admin set a plus one name) */}
+          {plusOneName && (
+            <div>
+              <label htmlFor="plusOneAttending" className="block text-sm font-medium text-gray-700 mb-2">
+                {t('rsvp.field.attending').replace('{name}', plusOneName)} <span className="text-rose-600">*</span>
+              </label>
+              <select
+                id="plusOneAttending"
+                name="plusOneAttending"
+                required
+                value={formData.plusOneAttending.toString()}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, plusOneAttending: e.target.value === 'true' }))
+                }
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+              >
+                <option value="true">{t('rsvp.field.plusOne.attending.yes')}</option>
+                <option value="false">{t('rsvp.field.plusOne.attending.no')}</option>
+              </select>
+            </div>
+          )}
+
           {/* Conditional fields - only show if attending */}
           {formData.attending && (
             <>
-              {/* Plus One Name */}
-              <div>
-                <label htmlFor="plusOneName" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t('rsvp.field.plusOne')}
-                </label>
-                <input
-                  type="text"
-                  id="plusOneName"
-                  name="plusOneName"
-                  value={formData.plusOneName}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  placeholder={t('rsvp.field.plusOne.placeholder')}
-                />
-              </div>
-
               {/* Dietary Restrictions */}
               <div>
                 <label htmlFor="dietaryRestrictions" className="block text-sm font-medium text-gray-700 mb-2">
