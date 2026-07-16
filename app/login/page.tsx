@@ -213,7 +213,7 @@ export default function LoginPage() {
         </div>
 
         {/* Info Box */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4 content-card">
+        <div className="mt-8 border border-blue-200 rounded-lg p-4 content-card--blue">
           <p className="text-sm text-blue-900 font-semibold mb-2">{t('login.why.heading')}</p>
           <p className="text-sm text-blue-800">
             {t('login.why.body')}

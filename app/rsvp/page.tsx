@@ -149,7 +149,7 @@ export default function RSVPPage() {
           username: userSession.username,
           name: sanitizedName,
           attending: formData.attending,
-          plus_one_attending: plusOneName ? formData.plusOneAttending : null,
+          plus_one_attending: plusOneName && formData.attending ? formData.plusOneAttending : null,
           dietary_restrictions: sanitizedDietary,
           accommodation_needed: formData.accommodationNeeded,
           additional_notes: sanitizedNotes,
@@ -292,8 +292,8 @@ export default function RSVPPage() {
             </select>
           </div>
 
-          {/* Attending Field — plus one (only shown if admin set a plus one name) */}
-          {plusOneName && (
+          {/* Attending Field — plus one (only shown if admin set a plus one name and main guest is attending) */}
+          {plusOneName && formData.attending && (
             <div>
               <label htmlFor="plusOneAttending" className="block text-sm font-medium text-gray-700 mb-2">
                 {t('rsvp.field.attending').replace('{name}', plusOneName)} <span className="text-rose-600">*</span>

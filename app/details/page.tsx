@@ -171,7 +171,7 @@ export default function DetailsPage() {
         </section>
 
         {/* Contact */}
-        <section className="bg-rose-50 rounded-xl p-8 text-center content-card">
+        <section className="rounded-xl p-8 text-center content-card--rose">
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">{t('details.contact.heading')}</h2>
           <p className="text-gray-600 mb-6">{t('details.contact.body')}</p>
           <a

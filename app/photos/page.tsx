@@ -103,7 +103,7 @@ export default function PhotosPage() {
           </div>
         </section>
 
-        <section className="bg-rose-50 rounded-xl p-8 text-center content-card">
+        <section className="rounded-xl p-8 text-center content-card--rose">
           <Heart className="w-12 h-12 mx-auto mb-4 text-rose-500 fill-current" />
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-3">{t('photos.thanks.heading')}</h2>
           <p className="text-gray-600">{t('photos.thanks.body')}</p>
