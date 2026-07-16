@@ -1,16 +1,9 @@
-/**
- * Global Styles
- *
- * - Imports Tailwind CSS utilities
- * - Sets up CSS variables for colors and fonts
- * - Configures light theme (no dark mode for wedding site)
- */
-
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #1f2937;
+  --bg-opacity: 0.4;
 }
 
 /* Tailwind v4 theme configuration */
@@ -22,6 +15,24 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  opacity: var(--bg-opacity);
+  z-index: -1;
+}
+
+.content-card {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
