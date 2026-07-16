@@ -59,8 +59,8 @@ export default function StoryPage() {
         </div>
       </div>
 
-      <div className="bg-white py-16 px-4 content-card">
-        <div className="max-w-3xl mx-auto text-center">
+      <div className="py-16 px-4">
+        <div className="max-w-3xl mx-auto text-center bg-white rounded-xl shadow-lg p-8 content-card">
           <h2 className="font-serif text-3xl font-bold text-gray-900 mb-4">{t('story.closing.heading')}</h2>
           <p className="text-xl text-gray-600 mb-8">{t('story.closing.body')}</p>
           <Heart className="w-12 h-12 mx-auto text-rose-500 fill-current" />
