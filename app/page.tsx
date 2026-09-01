@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { Calendar, MapPin, Heart } from 'lucide-react'
 import { useTranslation } from '@/components/LanguageProvider'
 
@@ -11,7 +12,13 @@ export default function Home() {
     <div className="relative">
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="relative z-10 text-center px-8 py-12 rounded-2xl content-card max-w-2xl mx-auto">
-          <Heart className="w-16 h-16 mx-auto mb-6 text-rose-500 fill-current animate-pulse" />
+          <Image
+            src="/flower.jpg"
+            alt=""
+            width={128}
+            height={128}
+            className="w-22 h-22 mx-auto mb-6 rounded-full object-cover animate-pulse"
+          />
           <h1 className="font-serif text-5xl sm:text-7xl font-bold text-gray-900 mb-4">
             João & Zuza
           </h1>
@@ -32,13 +39,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/rsvp"
-              className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors shadow-lg"
+              className="bg-blue-300 hover:bg-blue-400 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors shadow-lg"
             >
               {t('home.cta.rsvp')}
             </Link>
             <Link
               href="/details"
-              className="bg-white hover:bg-gray-50 text-rose-600 px-8 py-3 rounded-full text-lg font-semibold border-2 border-rose-600 transition-colors"
+              className="bg-white hover:bg-gray-60 text-blue-400 px-8 py-3 rounded-full text-lg font-semibold border-2 border-blue-300 transition-colors"
             >
               {t('home.cta.details')}
             </Link>
@@ -64,22 +71,22 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             <Link href="/story" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group content-card">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                <Heart className="w-8 h-8 text-rose-600" />
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 transition-colors">
+                <Heart className="w-8 h-8 text-yellow-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.story.heading')}</h3>
               <p className="text-gray-600">{t('home.card.story.body')}</p>
             </Link>
             <Link href="/details" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group content-card">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                <MapPin className="w-8 h-8 text-rose-600" />
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 transition-colors">
+                <MapPin className="w-8 h-8 text-yellow-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.details.heading')}</h3>
               <p className="text-gray-600">{t('home.card.details.body')}</p>
             </Link>
             <Link href="/photos" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group content-card">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                <Calendar className="w-8 h-8 text-rose-600" />
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 transition-colors">
+                <Calendar className="w-8 h-8 text-yellow-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.photos.heading')}</h3>
               <p className="text-gray-600">{t('home.card.photos.body')}</p>

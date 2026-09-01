@@ -33,6 +33,9 @@ export default function RootLayout({
           <footer className="border-t border-gray-200 py-8 mt-16 content-card">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-600 text-sm">
               <p>Made with ❤️ for our special day</p>
+              <p>If you encounter any problem with this website, please email <a href="mailto:hsifula@gmail.com" className="text-blue-500 hover:underline">
+              hsifula@gmail.com
+            </a></p>
             </div>
           </footer>
         </LanguageProvider>

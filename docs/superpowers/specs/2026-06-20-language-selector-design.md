@@ -128,7 +128,7 @@ A `'use client'` component that wraps `layout.tsx` children with the language co
 ## Navigation Dropdown UI
 
 - **Closed state:** `🇺🇸 EN-US ▼` pill button, right side of nav bar, immediately before the Login/user section
-- **Open state:** A dropdown panel (210px wide, rose-accented) lists all 13 languages as flag + native name. The current language is highlighted with a rose left-border and "Current" label.
+- **Open state:** A dropdown panel (210px wide, yellow-accented) lists all 13 languages as flag + native name. The current language is highlighted with a yellow left-border and "Current" label.
 - Clicking outside the dropdown closes it.
 - On mobile (hamburger menu): language selector is included in the mobile menu (implementation detail left to the plan).
 

@@ -28,6 +28,11 @@ interface UserSession {
   loginTime: string
 }
 
+// Helper to generate default attendance boolean array
+const getDefaultPlusOnesAttending = (names: string[]): boolean[] => {
+  return names.map(() => false); // Returns [] if names is empty, [false, false] if 2 names, etc.
+};
+
 export default function RSVPPage() {
   const { t } = useTranslation()
   const router = useRouter()
@@ -37,16 +42,17 @@ export default function RSVPPage() {
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
   // Plus one name from guest credentials (set by admin)
-  const [plusOneName, setPlusOneName] = useState<string | null>(null)
+  const [plusOneNames, setPlusOneNames] = useState<string[]>([]);
 
   // Form state
   const [formData, setFormData] = useState({
     name: '',
     attending: true,
-    plusOneAttending: true,
+    plusOnesAttending: [] as boolean[],
     dietaryRestrictions: '',
     accommodationNeeded: false,
     additionalNotes: '',
+    speech: false,
   })
 
   // UI state
@@ -74,11 +80,11 @@ export default function RSVPPage() {
         const supabase = createClient()
         const { data } = await supabase
           .from('guest_credentials')
-          .select('plus_one_name')
+          .select('plus_one_names')
           .eq('username', session.username)
           .single()
-        if (data?.plus_one_name) {
-          setPlusOneName(data.plus_one_name)
+        if (data?.plus_one_names) {
+          setPlusOneNames(data.plus_one_names)
         }
       } catch (error) {
         console.error('Invalid session data:', error)
@@ -142,6 +148,10 @@ export default function RSVPPage() {
       // Create Supabase client
       const supabase = createClient()
 
+      const cleanPlusOnesAttending = formData.attending && plusOneNames.length > 0
+        ? plusOneNames.map((_, i) => Boolean(formData.plusOnesAttending[i] ?? false))
+        : plusOneNames.map(() => false); // Returns [] if no plus-ones exist
+
       // Upsert RSVP: insert or overwrite based on unique username constraint
       // Requires UNIQUE constraint on guests.username in the database
       const { error } = await supabase.from('guests').upsert(
@@ -149,10 +159,11 @@ export default function RSVPPage() {
           username: userSession.username,
           name: sanitizedName,
           attending: formData.attending,
-          plus_one_attending: plusOneName && formData.attending ? formData.plusOneAttending : null,
+          plus_ones_attending: cleanPlusOnesAttending,
           dietary_restrictions: sanitizedDietary,
           accommodation_needed: formData.accommodationNeeded,
           additional_notes: sanitizedNotes,
+          speech: formData.speech,
         },
         { onConflict: 'username' }
       )
@@ -173,10 +184,11 @@ export default function RSVPPage() {
       setFormData({
         name: userSession.guestName,
         attending: true,
-        plusOneAttending: true,
+        plusOnesAttending: getDefaultPlusOnesAttending(plusOneNames),
         dietaryRestrictions: '',
         accommodationNeeded: false,
         additionalNotes: '',
+        speech: false,
       })
     } catch (error) {
       console.error('Error submitting RSVP:', error)
@@ -194,7 +206,7 @@ export default function RSVPPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Heart className="w-16 h-16 mx-auto mb-4 text-rose-500 fill-current animate-pulse" />
+          <Heart className="w-16 h-16 mx-auto mb-4 text-yellow-500 fill-current animate-pulse" />
           <p className="text-gray-600">{t('rsvp.loading')}</p>
         </div>
       </div>
@@ -206,7 +218,7 @@ export default function RSVPPage() {
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <Heart className="w-16 h-16 mx-auto mb-4 text-rose-500 fill-current" />
+          <Heart className="w-16 h-16 mx-auto mb-4 text-yellow-500 fill-current" />
           <h1 className="font-serif text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
             {t('rsvp.heading')}
           </h1>
@@ -220,7 +232,7 @@ export default function RSVPPage() {
               </p>
               <button
                 onClick={handleLogout}
-                className="text-sm text-rose-600 hover:underline inline-flex items-center gap-1"
+                className="text-sm text-yellow-600 hover:underline inline-flex items-center gap-1"
               >
                 <LogOut className="w-4 h-4" />
                 {t('common.logout')}
@@ -258,7 +270,7 @@ export default function RSVPPage() {
           {/* Name Field */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-              {t('rsvp.field.name')} <span className="text-rose-600">*</span>
+              {t('rsvp.field.name')} <span className="text-yellow-600">*</span>
             </label>
             <input
               type="text"
@@ -267,7 +279,7 @@ export default function RSVPPage() {
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
               placeholder={t('rsvp.field.name.placeholder')}
             />
           </div>
@@ -275,7 +287,7 @@ export default function RSVPPage() {
           {/* Attending Field — main guest */}
           <div>
             <label htmlFor="attending" className="block text-sm font-medium text-gray-700 mb-2">
-              {t('rsvp.field.attending').replace('{name}', formData.name || t('rsvp.field.name'))} <span className="text-rose-600">*</span>
+              {t('rsvp.field.attending').replace('{name}', formData.name || t('rsvp.field.name'))} <span className="text-yellow-600">*</span>
             </label>
             <select
               id="attending"
@@ -285,38 +297,80 @@ export default function RSVPPage() {
               onChange={(e) =>
                 setFormData((prev) => ({ ...prev, attending: e.target.value === 'true' }))
               }
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
             >
               <option value="true">{t('rsvp.field.attending.yes')}</option>
               <option value="false">{t('rsvp.field.attending.no')}</option>
             </select>
           </div>
 
-          {/* Attending Field — plus one (only shown if admin set a plus one name and main guest is attending) */}
-          {plusOneName && formData.attending && (
-            <div>
-              <label htmlFor="plusOneAttending" className="block text-sm font-medium text-gray-700 mb-2">
-                {t('rsvp.field.attending').replace('{name}', plusOneName)} <span className="text-rose-600">*</span>
-              </label>
-              <select
-                id="plusOneAttending"
-                name="plusOneAttending"
-                required
-                value={formData.plusOneAttending.toString()}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, plusOneAttending: e.target.value === 'true' }))
-                }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-              >
-                <option value="true">{t('rsvp.field.plusOne.attending.yes')}</option>
-                <option value="false">{t('rsvp.field.plusOne.attending.no')}</option>
-              </select>
+          {/* Attending Field — plus ones (only shown if admin set plusOneNames and main guest is attending) */}
+          {plusOneNames && plusOneNames.length > 0 && formData.attending && (
+            <div className="space-y-4">
+              {plusOneNames.map((name, index) => (
+                <div key={index}>
+                  <label 
+                    htmlFor={`plusOneAttending-${index}`} 
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    {t('rsvp.field.attending').replace('{name}', name)} <span className="text-yellow-600">*</span>
+                  </label>
+                  <select
+                    id={`plusOneAttending-${index}`}
+                    name={`plusOneAttending-${index}`}
+                    required
+                    value={formData.plusOnesAttending[index]?.toString() ?? 'false'}
+                    onChange={(e) => {
+                      const isAttending = e.target.value === 'true';
+                      setFormData((prev) => {
+                        const updatedAttending = [...prev.plusOnesAttending];
+                        updatedAttending[index] = isAttending;
+                        return { ...prev, plusOnesAttending: updatedAttending };
+                      });
+                    }}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                  >
+                    <option value="true">{t('rsvp.field.plusOne.attending.yes')}</option>
+                    <option value="false">{t('rsvp.field.plusOne.attending.no')}</option>
+                  </select>
+                </div>
+              ))}
             </div>
           )}
 
           {/* Conditional fields - only show if attending */}
           {formData.attending && (
             <>
+              {/* Want to do a speech */}
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="speech"
+                  name="speech"
+                  checked={formData.speech}
+                  onChange={handleChange}
+                  className="mt-1 h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <label htmlFor="speech" className="ml-3 text-sm text-gray-700">
+                  {t('rsvp.field.speech')}
+                </label>
+              </div>
+
+              {/* Accommodation Needed */}
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="accommodationNeeded"
+                  name="accommodationNeeded"
+                  checked={formData.accommodationNeeded}
+                  onChange={handleChange}
+                  className="mt-1 h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
+                />
+                <label htmlFor="accommodationNeeded" className="ml-3 text-sm text-gray-700">
+                  {t('rsvp.field.accommodation')}
+                </label>
+              </div>
+
               {/* Dietary Restrictions */}
               <div>
                 <label htmlFor="dietaryRestrictions" className="block text-sm font-medium text-gray-700 mb-2">
@@ -328,24 +382,9 @@ export default function RSVPPage() {
                   rows={3}
                   value={formData.dietaryRestrictions}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                   placeholder={t('rsvp.field.dietary.placeholder')}
                 />
-              </div>
-
-              {/* Accommodation Needed */}
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  id="accommodationNeeded"
-                  name="accommodationNeeded"
-                  checked={formData.accommodationNeeded}
-                  onChange={handleChange}
-                  className="mt-1 h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded"
-                />
-                <label htmlFor="accommodationNeeded" className="ml-3 text-sm text-gray-700">
-                  {t('rsvp.field.accommodation')}
-                </label>
               </div>
 
               {/* Spotify Playlist */}
@@ -368,7 +407,7 @@ export default function RSVPPage() {
                   href={process.env.NEXT_PUBLIC_SPOTIFY_INVITE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                 >
                   {t('rsvp.playlist.button')}
                 </a>
@@ -388,7 +427,7 @@ export default function RSVPPage() {
                   rows={4}
                   value={formData.additionalNotes}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                   placeholder={t('rsvp.field.notes.placeholder')}
                 />
               </div>
@@ -400,7 +439,7 @@ export default function RSVPPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg font-semibold text-lg transition-colors disabled:cursor-not-allowed"
+              className="w-full bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-400 text-white py-3 px-6 rounded-lg font-semibold text-lg transition-colors disabled:cursor-not-allowed"
             >
               {isSubmitting ? t('rsvp.submitting') : t('rsvp.submit')}
             </button>
@@ -411,9 +450,6 @@ export default function RSVPPage() {
         <div className="mt-8 text-center text-sm text-gray-600">
           <p>
             {t('rsvp.contact')}{' '}
-            <a href="mailto:hsifula@gmail.com" className="text-rose-600 hover:underline">
-              hsifula@gmail.com
-            </a>
           </p>
         </div>
       </div>

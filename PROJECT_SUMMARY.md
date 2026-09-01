@@ -83,7 +83,7 @@ A complete, production-ready wedding website with the following features:
 - created_at (timestamp, auto-generated)
 - name (text, required)
 - attending (boolean, required)
-- plus_one_name (text, optional)
+- plus_one_names (text, optional)
 - dietary_restrictions (text, optional)
 - accommodation_needed (boolean, default false)
 - spotify_song_suggestion (text, optional)
@@ -96,7 +96,7 @@ A complete, production-ready wedding website with the following features:
 
 ## 🎨 Design Features
 
-- **Color Scheme:** Rose/Pink/Purple gradient theme
+- **Color Scheme:** yellow/Pink/Purple gradient theme
 - **Typography:** Elegant serif headings + clean sans-serif body
 - **Responsive Design:** Works on mobile, tablet, and desktop
 - **Accessibility:** Semantic HTML, proper ARIA labels

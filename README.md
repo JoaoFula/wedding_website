@@ -102,12 +102,12 @@ The website is fully commented to guide you. Here's what to customize:
 ### Customize Colors and Fonts
 
 The website uses:
-- **Colors**: Rose/Pink theme (Tailwind `rose-*` classes)
+- **Colors**: yellow/Pink theme (Tailwind `yellow-*` classes)
 - **Fonts**:
   - Playfair Display (elegant serif for headings)
   - Inter (clean sans-serif for body text)
 
-To change colors, search for `rose-` in the files and replace with another Tailwind color.
+To change colors, search for `yellow-` in the files and replace with another Tailwind color.
 
 ## 🌐 Deployment
 

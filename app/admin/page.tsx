@@ -25,6 +25,7 @@ interface UserSession {
   isAdmin: boolean
   hasRsvped: boolean
   loginTime: string
+  speech: boolean
 }
 
 export default function AdminPage() {
@@ -150,6 +151,17 @@ export default function AdminPage() {
     return true
   })
 
+  // Total count of plus-ones who are attending
+  const totalAttendingPlusOnes = guests.reduce((total, guest) => {
+    // Only count plus-ones if the main guest is attending and has plus-ones
+    if (!guest.attending || !guest.plus_ones_attending) return total;
+
+    // Sum the number of 'true' values in the guest's plus_ones_attending array
+    const guestAttendingPlusOnesCount = guest.plus_ones_attending.filter(Boolean).length;
+    
+    return total + guestAttendingPlusOnesCount;
+  }, 0);
+
   // Stats
   const totalGuests = guests.length
   const attending = guests.filter((g) => g.attending).length
@@ -159,6 +171,9 @@ export default function AdminPage() {
   const unseenCount = guests.filter(
     (g) => g.admin_seen_at == null || g.updated_at > g.admin_seen_at
   ).length
+
+  // Total headcount: attending main guests + attending plus-ones
+  const totalPartyHeadcount = attending + totalAttendingPlusOnes;
 
   // Loading state
   if (isLoading) {
@@ -197,7 +212,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('rsvps')}
               className={`px-4 py-2 font-medium border-b-2 transition-colors ${
                 activeTab === 'rsvps'
-                  ? 'border-rose-600 text-rose-600'
+                  ? 'border-yellow-600 text-yellow-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -207,7 +222,7 @@ export default function AdminPage() {
               onClick={() => setActiveTab('guests')}
               className={`px-4 py-2 font-medium border-b-2 transition-colors ${
                 activeTab === 'guests'
-                  ? 'border-rose-600 text-rose-600'
+                  ? 'border-yellow-600 text-yellow-600'
                   : 'border-transparent text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -232,9 +247,9 @@ export default function AdminPage() {
               <div className="bg-white rounded-lg shadow p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <UserCheck className="w-8 h-8 text-green-600" />
-                  <h3 className="text-2xl font-bold">{attending}</h3>
+                  <h3 className="text-2xl font-bold">{totalPartyHeadcount}</h3>
                 </div>
-                <p className="text-gray-600">Attending</p>
+                <p className="text-gray-600">Total Headcount</p>
               </div>
 
               <div className="bg-white rounded-lg shadow p-6">
@@ -251,7 +266,7 @@ export default function AdminPage() {
               <button
                 onClick={() => setFilter('all')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  filter === 'all' ? 'bg-rose-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'
+                  filter === 'all' ? 'bg-yellow-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 All ({totalGuests})
@@ -259,7 +274,7 @@ export default function AdminPage() {
               <button
                 onClick={() => setFilter('attending')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  filter === 'attending' ? 'bg-rose-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'
+                  filter === 'attending' ? 'bg-yellow-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Attending ({attending})
@@ -267,7 +282,7 @@ export default function AdminPage() {
               <button
                 onClick={() => setFilter('not-attending')}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  filter === 'not-attending' ? 'bg-rose-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'
+                  filter === 'not-attending' ? 'bg-yellow-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 Not Attending ({notAttending})
@@ -290,13 +305,16 @@ export default function AdminPage() {
                         Attending
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Plus One
+                        Plus One Attending
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Dietary Restrictions
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Accommodation
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Speech
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         New
@@ -338,13 +356,51 @@ export default function AdminPage() {
                               </span>
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                              {guest.plus_one_name || '-'}
+                              {(() => {
+                                const cred = guestCredentials.find(c => c.username === guest.username)
+                                const plusOneNames = cred?.plus_one_names ?? []
+                                if (plusOneNames.length === 0) {
+                                      return <span className="text-gray-400">-</span>
+                                    }
+
+                                return (
+                                  <div className="space-y-1">
+                                    {plusOneNames.map((name, index) => {
+                                      // Look up attendance by corresponding index
+                                      const isAttending = guest.plus_ones_attending?.[index]
+
+                                      return (
+                                        <div key={index} className="flex items-center gap-2">
+                                          <span>{name}</span>
+                                          <span>—</span>
+                                          {isAttending == null ? (
+                                            <span className="text-gray-400 text-xs">pending</span>
+                                          ) : (
+                                            <span
+                                              className={`px-2 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                                                isAttending
+                                                  ? 'bg-green-100 text-green-800'
+                                                  : 'bg-red-100 text-red-800'
+                                              }`}
+                                            >
+                                              {isAttending ? 'Yes' : 'No'}
+                                            </span>
+                                          )}
+                                        </div>
+                                      )
+                                    })}
+                                  </div>
+                                )
+                              })()}
                             </td>
                             <td className="px-6 py-4 text-sm text-gray-600">
                               {guest.dietary_restrictions || '-'}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                               {guest.accommodation_needed ? 'Yes' : 'No'}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                              {guest.speech ? 'Yes' : 'No'}
                             </td>
                             <td className="px-6 py-4 whitespace-nowrap">
                               {isUnseen && (
@@ -376,7 +432,7 @@ export default function AdminPage() {
                   {filteredGuests
                     .filter((g) => g.additional_notes)
                     .map((guest) => (
-                      <div key={guest.id} className="border-l-4 border-rose-500 pl-4">
+                      <div key={guest.id} className="border-l-4 border-yellow-500 pl-4">
                         <p className="font-semibold text-gray-900">{guest.name}</p>
                         <p className="text-gray-600 mt-1">{guest.additional_notes}</p>
                       </div>
@@ -409,6 +465,9 @@ export default function AdminPage() {
                         Name
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Plus Ones
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         PIN
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -430,6 +489,17 @@ export default function AdminPage() {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                           {credential.guest_name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                          {credential.plus_one_names && credential.plus_one_names.length > 0 ? (
+                            <div className="space-y-1">
+                              {credential.plus_one_names.map((name, index) => (
+                                <div key={index}>{name}</div>
+                              ))}
+                            </div>
+                          ) : (
+                            <span className="text-gray-400">-</span>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                           {credential.pin}

@@ -35,7 +35,7 @@ A new block in the same position:
 
 1. **Section label** — translated heading (`rsvp.playlist.heading`)
 2. **Spotify embed** — `<iframe>` at `https://open.spotify.com/embed/playlist/1q7gd1czHuYwJ3RSd8fklx`, height 352px, `allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"`, `loading="lazy"`
-3. **"Add a Song" button** — rose-600 style, opens `NEXT_PUBLIC_SPOTIFY_INVITE_URL` in a new tab
+3. **"Add a Song" button** — yellow-600 style, opens `NEXT_PUBLIC_SPOTIFY_INVITE_URL` in a new tab
 4. **Hint text** — translated (`rsvp.playlist.hint`): instructs guests to open the link in Spotify to join as a collaborator
 
 ### Environment variable

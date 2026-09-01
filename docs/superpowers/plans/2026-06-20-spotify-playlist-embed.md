@@ -413,7 +413,7 @@ Find (lines 331-348):
                   name="spotifySongSuggestion"
                   value={formData.spotifySongSuggestion}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
                   placeholder={t('rsvp.field.song.placeholder')}
                 />
                 <p className="mt-1 text-sm text-gray-500">
@@ -444,7 +444,7 @@ Replace with:
                   href={process.env.NEXT_PUBLIC_SPOTIFY_INVITE_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
                 >
                   {t('rsvp.playlist.button')}
                 </a>
@@ -501,7 +501,7 @@ Replace with:
         {/* Playlist */}
         <section className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center gap-3 mb-4">
-            <Music className="w-8 h-8 text-rose-600" />
+            <Music className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.playlist.heading')}</h2>
           </div>
           <p className="text-gray-600 mb-6">{t('details.playlist.subtitle')}</p>

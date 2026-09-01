@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #1f2937;
-  --bg-opacity: 0.4;
+  --bg-opacity: 0.2;
 }
 
 /* Tailwind v4 theme configuration */
@@ -36,7 +36,7 @@ body::before {
   -webkit-backdrop-filter: blur(8px);
 }
 
-.content-card--rose {
+.content-card--yellow {
   background: rgba(255, 241, 242, 0.88);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);

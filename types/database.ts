@@ -11,6 +11,7 @@ export interface GuestCredential {
   username: string
   pin: string
   guest_name: string
+  plus_one_names?: string[]
   is_admin: boolean
   has_rsvped: boolean
   last_login?: string
@@ -22,13 +23,14 @@ export interface Guest {
   username: string
   name: string
   attending: boolean
-  plus_one_name?: string
+  plus_ones_attending?: boolean[] | null
   dietary_restrictions?: string
   accommodation_needed: boolean
   spotify_song_suggestion?: string
   additional_notes?: string
   updated_at: string
   admin_seen_at?: string
+  speech?: boolean
 }
 
 /**

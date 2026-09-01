@@ -21,7 +21,7 @@ export default function DetailsPage() {
         {/* Venue */}
         <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
-            <MapPin className="w-8 h-8 text-rose-600" />
+            <MapPin className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.venue.heading')}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -34,14 +34,17 @@ export default function DetailsPage() {
                 href="https://www.google.com/maps/search/?api=1&query=Lesná+19,+671+02+Šumná,+Czech+Republic"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg transition-colors"
               >
                 <Navigation className="w-4 h-4" />
                 {t('details.venue.directions')}
               </a>
-              <div className="mt-6">
+              <div className="mt-6 space-y-6">
                 <h4 className="font-semibold text-gray-900 mb-2">{t('details.venue.parking.heading')}</h4>
                 <p className="text-gray-600">{t('details.venue.parking.body')}</p>
+                
+                <h4 className="font-semibold text-gray-900 mb-2">{t('details.venue.getthere.heading')}</h4>
+                <p className="text-gray-600">{t('details.venue.getthere.body')}</p>
               </div>
             </div>
             <div className="rounded-lg overflow-hidden h-64 md:h-auto min-h-64">
@@ -59,19 +62,19 @@ export default function DetailsPage() {
         {/* Schedule */}
         <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
-            <Clock className="w-8 h-8 text-rose-600" />
+            <Clock className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.schedule.heading')}</h2>
           </div>
           <div className="space-y-6">
             {[
-              { timeKey: 'details.schedule.ceremony.time', titleKey: 'details.schedule.ceremony.title', bodyKey: 'details.schedule.ceremony.body', color: 'border-rose-500' },
-              { timeKey: 'details.schedule.cocktail.time', titleKey: 'details.schedule.cocktail.title', bodyKey: 'details.schedule.cocktail.body', color: 'border-rose-400' },
-              { timeKey: 'details.schedule.reception.time', titleKey: 'details.schedule.reception.title', bodyKey: 'details.schedule.reception.body', color: 'border-rose-400' },
-              { timeKey: 'details.schedule.lastdance.time', titleKey: 'details.schedule.lastdance.title', bodyKey: 'details.schedule.lastdance.body', color: 'border-rose-300' },
+              { timeKey: 'details.schedule.ceremony.time', titleKey: 'details.schedule.ceremony.title', bodyKey: 'details.schedule.ceremony.body', color: 'border-yellow-500' },
+              { timeKey: 'details.schedule.cocktail.time', titleKey: 'details.schedule.cocktail.title', bodyKey: 'details.schedule.cocktail.body', color: 'border-yellow-400' },
+              { timeKey: 'details.schedule.reception.time', titleKey: 'details.schedule.reception.title', bodyKey: 'details.schedule.reception.body', color: 'border-yellow-400' },
+              { timeKey: 'details.schedule.lastdance.time', titleKey: 'details.schedule.lastdance.title', bodyKey: 'details.schedule.lastdance.body', color: 'border-yellow-300' },
             ].map(item => (
               <div key={item.timeKey} className={`flex gap-4 border-l-4 ${item.color} pl-4`}>
                 <div className="flex-shrink-0 w-24">
-                  <p className="font-bold text-rose-600">{t(item.timeKey)}</p>
+                  <p className="font-bold text-yellow-600">{t(item.timeKey)}</p>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-1">{t(item.titleKey)}</h3>
@@ -85,7 +88,7 @@ export default function DetailsPage() {
         {/* Dress Code */}
         <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
-            <Info className="w-8 h-8 text-rose-600" />
+            <Info className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.dresscode.heading')}</h2>
           </div>
           <p className="text-lg text-gray-700 mb-4"><strong>{t('details.dresscode.type')}</strong></p>
@@ -93,9 +96,8 @@ export default function DetailsPage() {
           <ul className="list-disc list-inside text-gray-600 space-y-1 ml-4">
             <li>{t('details.dresscode.item1')}</li>
             <li>{t('details.dresscode.item2')}</li>
-            <li>{t('details.dresscode.item3')}</li>
           </ul>
-          <div className="mt-4 p-4 bg-rose-50 rounded-lg">
+          <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
             <p className="text-gray-700">
               <strong>{t('details.dresscode.colors.label')}</strong> {t('details.dresscode.colors.value')}
               <br />
@@ -107,7 +109,7 @@ export default function DetailsPage() {
         {/* Accommodation */}
         <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-6">
-            <Hotel className="w-8 h-8 text-rose-600" />
+            <Hotel className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.accommodation.heading')}</h2>
           </div>
           <p className="text-gray-600 mb-6">{t('details.accommodation.intro')}</p>
@@ -119,7 +121,7 @@ export default function DetailsPage() {
         {/* Playlist */}
         <section className="bg-white rounded-xl shadow-lg p-8 content-card">
           <div className="flex items-center gap-3 mb-4">
-            <Music className="w-8 h-8 text-rose-600" />
+            <Music className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.playlist.heading')}</h2>
           </div>
           <p className="text-gray-600 mb-6">{t('details.playlist.subtitle')}</p>
@@ -171,12 +173,12 @@ export default function DetailsPage() {
         </section>
 
         {/* Contact */}
-        <section className="rounded-xl p-8 text-center content-card--rose">
+        <section className="rounded-xl p-8 text-center content-card--yellow">
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">{t('details.contact.heading')}</h2>
           <p className="text-gray-600 mb-6">{t('details.contact.body')}</p>
           <a
-            href="mailto:hsifula@gmail.com"
-            className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            href="mailto:zuzavojtechova@gmail.com"
+            className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
           >
             {t('details.contact.button')}
           </a>

@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS guest_credentials (
     username TEXT NOT NULL UNIQUE,
     pin TEXT NOT NULL,
     guest_name TEXT NOT NULL,
+    plus_one_names ARRAY TEXT,
     is_admin BOOLEAN NOT NULL DEFAULT false,
     has_rsvped BOOLEAN NOT NULL DEFAULT false,
     last_login TIMESTAMP WITH TIME ZONE,
@@ -66,7 +67,7 @@ CREATE TABLE IF NOT EXISTS guests (
     username TEXT NOT NULL,
     name TEXT NOT NULL,
     attending BOOLEAN NOT NULL DEFAULT false,
-    plus_one_name TEXT,
+    plus_ones_attending ARRAY BOOLEAN,
     dietary_restrictions TEXT,
     accommodation_needed BOOLEAN NOT NULL DEFAULT false,
     spotify_song_suggestion TEXT,
@@ -172,7 +173,7 @@ $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS on_rsvp_updated ON guests;
 CREATE TRIGGER on_rsvp_updated
-    BEFORE UPDATE OF name, attending, plus_one_name, dietary_restrictions, accommodation_needed, spotify_song_suggestion, additional_notes ON guests
+    BEFORE UPDATE OF name, attending, plus_ones_attending, dietary_restrictions, accommodation_needed, spotify_song_suggestion, additional_notes ON guests
     FOR EACH ROW
     EXECUTE FUNCTION set_updated_at();
 
@@ -239,6 +240,27 @@ CREATE TRIGGER on_rsvp_updated
 --
 --   DROP TRIGGER IF EXISTS on_rsvp_updated ON guests;
 --   CREATE TRIGGER on_rsvp_updated
---       BEFORE UPDATE OF name, attending, plus_one_name, dietary_restrictions, accommodation_needed, spotify_song_suggestion, additional_notes ON guests
+--       BEFORE UPDATE OF name, attending, plus_ones_attending, dietary_restrictions, accommodation_needed, spotify_song_suggestion, additional_notes ON guests
+--       FOR EACH ROW
+--       EXECUTE FUNCTION set_updated_at();
+
+-- ============================================================================
+-- MIGRATION: Add plus_one_names to guest_credentials, replace plus_one_names
+--            with plus_ones_attending in guests (if upgrading existing DB)
+-- ============================================================================
+-- Run this in the Supabase SQL editor if you already have an existing database:
+--
+--   ALTER TABLE guest_credentials ADD COLUMN IF NOT EXISTS plus_one_names TEXT;
+--
+--   -- Must drop the trigger first (it references plus_one_names)
+--   DROP TRIGGER IF EXISTS on_rsvp_updated ON guests;
+--
+--   ALTER TABLE guests
+--       ADD COLUMN IF NOT EXISTS plus_ones_attending BOOLEAN,
+--       DROP COLUMN IF EXISTS plus_one_names;
+--
+--   -- Recreate the trigger with the new column name
+--   CREATE TRIGGER on_rsvp_updated
+--       BEFORE UPDATE OF name, attending, plus_ones_attending, dietary_restrictions, accommodation_needed, spotify_song_suggestion, additional_notes ON guests
 --       FOR EACH ROW
 --       EXECUTE FUNCTION set_updated_at();

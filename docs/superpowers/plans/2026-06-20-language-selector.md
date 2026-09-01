@@ -191,7 +191,7 @@ Write `locales/en-US.json`:
   "details.dresscode.item2": "Please avoid: Jeans, high heel shoes",
   "details.dresscode.item3": "Colors to avoid: White, ivory, or anything that might look bridal",
   "details.dresscode.colors.label": "Wedding Colors:",
-  "details.dresscode.colors.value": "Rose, Pink, and Purple",
+  "details.dresscode.colors.value": "yellow, Pink, and Purple",
   "details.dresscode.colors.note": "(Feel free to incorporate these colors, but it's not required!)",
   "details.accommodation.heading": "Accommodation",
   "details.accommodation.intro": "There are a lot of accommodation options. Feel free to reach out to discuss them. We will have tents in our backyard for those who prefer camping and we'll have the first floor of our house stuffed with sleeping bags for those who prefer sleeping inside. The village has a few accommodations up for renting that you can find below and there are plenty of places you can stay at in Znojmo. We will be having the ceremony in Znojmo city hall and then will have a bus to bring us to the venue. We will also have a 'chauffeur' driving guests to their homes/hotels throughout the night so don't worry about how you are getting home. Assuming you can still walk.",
@@ -632,7 +632,7 @@ export default function Navigation() {
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-2 text-rose-600 hover:text-rose-700">
+          <Link href="/" className="flex items-center space-x-2 text-yellow-600 hover:text-yellow-700">
             <Heart className="w-6 h-6 fill-current" />
             <span className="font-semibold text-lg">Our Wedding</span>
           </Link>
@@ -650,8 +650,8 @@ export default function Navigation() {
                 href={href}
                 className={`${
                   isActive(href.split('?')[0])
-                    ? 'text-rose-600 border-b-2 border-rose-600'
-                    : 'text-gray-700 hover:text-rose-600'
+                    ? 'text-yellow-600 border-b-2 border-yellow-600'
+                    : 'text-gray-700 hover:text-yellow-600'
                 } px-3 py-2 text-sm font-medium transition-colors`}
               >
                 {label}
@@ -664,7 +664,7 @@ export default function Navigation() {
             <div className="relative" ref={langRef}>
               <button
                 onClick={() => setLangOpen(o => !o)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:border-rose-400 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:border-yellow-400 transition-colors"
                 aria-label="Select language"
               >
                 <span>{currentLocale.flag}</span>
@@ -679,14 +679,14 @@ export default function Navigation() {
                       key={loc.code}
                       onClick={() => { setLocale(loc.code as LocaleCode); setLangOpen(false) }}
                       className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-gray-50 transition-colors ${
-                        loc.code === locale ? 'bg-rose-50 border-l-2 border-rose-500' : ''
+                        loc.code === locale ? 'bg-yellow-50 border-l-2 border-yellow-500' : ''
                       }`}
                     >
                       <span className="text-xl">{loc.flag}</span>
                       <div>
                         <div className="text-sm font-medium text-gray-900">{loc.name}</div>
                         {loc.code === locale && (
-                          <div className="text-xs text-rose-500">Current</div>
+                          <div className="text-xs text-yellow-500">Current</div>
                         )}
                       </div>
                     </button>
@@ -704,7 +704,7 @@ export default function Navigation() {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50 rounded-lg transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                   {t('nav.logout')}
@@ -713,7 +713,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/login"
-                className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition-colors"
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors"
               >
                 <LogIn className="w-4 h-4" />
                 {t('nav.login')}
@@ -721,7 +721,7 @@ export default function Navigation() {
             )}
 
             <div className="md:hidden">
-              <button className="text-gray-700 hover:text-rose-600">
+              <button className="text-gray-700 hover:text-yellow-600">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -764,10 +764,10 @@ export default function Home() {
   return (
     <div className="relative">
       <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-rose-100 via-pink-50 to-purple-100" />
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-pink-50 to-purple-100" />
         <div className="absolute inset-0 bg-white/40" />
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8">
-          <Heart className="w-16 h-16 mx-auto mb-6 text-rose-500 fill-current animate-pulse" />
+          <Heart className="w-16 h-16 mx-auto mb-6 text-yellow-500 fill-current animate-pulse" />
           <h1 className="font-serif text-5xl sm:text-7xl font-bold text-gray-900 mb-4">
             João & Zuza
           </h1>
@@ -788,13 +788,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/rsvp"
-              className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors shadow-lg"
+              className="bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-colors shadow-lg"
             >
               {t('home.cta.rsvp')}
             </Link>
             <Link
               href="/details"
-              className="bg-white hover:bg-gray-50 text-rose-600 px-8 py-3 rounded-full text-lg font-semibold border-2 border-rose-600 transition-colors"
+              className="bg-white hover:bg-gray-50 text-yellow-600 px-8 py-3 rounded-full text-lg font-semibold border-2 border-yellow-600 transition-colors"
             >
               {t('home.cta.details')}
             </Link>
@@ -820,22 +820,22 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8">
             <Link href="/story" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                <Heart className="w-8 h-8 text-rose-600" />
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 transition-colors">
+                <Heart className="w-8 h-8 text-yellow-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.story.heading')}</h3>
               <p className="text-gray-600">{t('home.card.story.body')}</p>
             </Link>
             <Link href="/details" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                <MapPin className="w-8 h-8 text-rose-600" />
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 transition-colors">
+                <MapPin className="w-8 h-8 text-yellow-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.details.heading')}</h3>
               <p className="text-gray-600">{t('home.card.details.body')}</p>
             </Link>
             <Link href="/photos" className="bg-white p-8 rounded-lg shadow-md hover:shadow-xl transition-shadow text-center group">
-              <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-rose-200 transition-colors">
-                <Calendar className="w-8 h-8 text-rose-600" />
+              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-yellow-200 transition-colors">
+                <Calendar className="w-8 h-8 text-yellow-600" />
               </div>
               <h3 className="font-serif text-2xl font-bold text-gray-900 mb-2">{t('home.card.photos.heading')}</h3>
               <p className="text-gray-600">{t('home.card.photos.body')}</p>
@@ -886,9 +886,9 @@ export default function StoryPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-purple-50">
       <div className="text-center py-16 px-4">
-        <Heart className="w-16 h-16 mx-auto mb-6 text-rose-500 fill-current" />
+        <Heart className="w-16 h-16 mx-auto mb-6 text-yellow-500 fill-current" />
         <h1 className="font-serif text-5xl sm:text-6xl font-bold text-gray-900 mb-4">
           {t('story.heading')}
         </h1>
@@ -899,11 +899,11 @@ export default function StoryPage() {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="relative">
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-rose-300 hidden md:block" />
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-yellow-300 hidden md:block" />
           {timelineItems.map((item, index) => (
             <div key={index} className="mb-12 relative">
               <div className="md:absolute md:left-1/2 md:transform md:-translate-x-1/2 mb-4 md:mb-0 md:-translate-y-2">
-                <div className="inline-block bg-rose-600 text-white px-6 py-2 rounded-full font-bold text-lg shadow-lg">
+                <div className="inline-block bg-yellow-600 text-white px-6 py-2 rounded-full font-bold text-lg shadow-lg">
                   {item.year}
                 </div>
               </div>
@@ -919,7 +919,7 @@ export default function StoryPage() {
                 </div>
               </div>
               <div className="hidden md:block absolute left-1/2 top-0 transform -translate-x-1/2 translate-y-12">
-                <div className="w-4 h-4 bg-rose-600 rounded-full border-4 border-white shadow" />
+                <div className="w-4 h-4 bg-yellow-600 rounded-full border-4 border-white shadow" />
               </div>
             </div>
           ))}
@@ -930,7 +930,7 @@ export default function StoryPage() {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="font-serif text-3xl font-bold text-gray-900 mb-4">{t('story.closing.heading')}</h2>
           <p className="text-xl text-gray-600 mb-8">{t('story.closing.body')}</p>
-          <Heart className="w-12 h-12 mx-auto text-rose-500 fill-current" />
+          <Heart className="w-12 h-12 mx-auto text-yellow-500 fill-current" />
         </div>
       </div>
     </div>
@@ -1053,7 +1053,7 @@ export default function DetailsPage() {
   const { t } = useTranslation()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-purple-50">
       <div className="text-center py-16 px-4">
         <h1 className="font-serif text-5xl sm:text-6xl font-bold text-gray-900 mb-4">
           {t('details.heading')}
@@ -1067,7 +1067,7 @@ export default function DetailsPage() {
         {/* Venue */}
         <section className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center gap-3 mb-6">
-            <MapPin className="w-8 h-8 text-rose-600" />
+            <MapPin className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.venue.heading')}</h2>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -1080,7 +1080,7 @@ export default function DetailsPage() {
                 href="https://www.google.com/maps/search/?api=1&query=VENUE+ADDRESS+HERE"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg transition-colors"
+                className="inline-flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded-lg transition-colors"
               >
                 <Navigation className="w-4 h-4" />
                 {t('details.venue.directions')}
@@ -1101,19 +1101,19 @@ export default function DetailsPage() {
         {/* Schedule */}
         <section className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center gap-3 mb-6">
-            <Clock className="w-8 h-8 text-rose-600" />
+            <Clock className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.schedule.heading')}</h2>
           </div>
           <div className="space-y-6">
             {[
-              { timeKey: 'details.schedule.ceremony.time', titleKey: 'details.schedule.ceremony.title', bodyKey: 'details.schedule.ceremony.body', color: 'border-rose-500' },
-              { timeKey: 'details.schedule.cocktail.time', titleKey: 'details.schedule.cocktail.title', bodyKey: 'details.schedule.cocktail.body', color: 'border-rose-400' },
-              { timeKey: 'details.schedule.reception.time', titleKey: 'details.schedule.reception.title', bodyKey: 'details.schedule.reception.body', color: 'border-rose-400' },
-              { timeKey: 'details.schedule.lastdance.time', titleKey: 'details.schedule.lastdance.title', bodyKey: 'details.schedule.lastdance.body', color: 'border-rose-300' },
+              { timeKey: 'details.schedule.ceremony.time', titleKey: 'details.schedule.ceremony.title', bodyKey: 'details.schedule.ceremony.body', color: 'border-yellow-500' },
+              { timeKey: 'details.schedule.cocktail.time', titleKey: 'details.schedule.cocktail.title', bodyKey: 'details.schedule.cocktail.body', color: 'border-yellow-400' },
+              { timeKey: 'details.schedule.reception.time', titleKey: 'details.schedule.reception.title', bodyKey: 'details.schedule.reception.body', color: 'border-yellow-400' },
+              { timeKey: 'details.schedule.lastdance.time', titleKey: 'details.schedule.lastdance.title', bodyKey: 'details.schedule.lastdance.body', color: 'border-yellow-300' },
             ].map(item => (
               <div key={item.timeKey} className={`flex gap-4 border-l-4 ${item.color} pl-4`}>
                 <div className="flex-shrink-0 w-24">
-                  <p className="font-bold text-rose-600">{t(item.timeKey)}</p>
+                  <p className="font-bold text-yellow-600">{t(item.timeKey)}</p>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-1">{t(item.titleKey)}</h3>
@@ -1127,7 +1127,7 @@ export default function DetailsPage() {
         {/* Dress Code */}
         <section className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center gap-3 mb-6">
-            <Info className="w-8 h-8 text-rose-600" />
+            <Info className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.dresscode.heading')}</h2>
           </div>
           <p className="text-lg text-gray-700 mb-4"><strong>{t('details.dresscode.type')}</strong></p>
@@ -1137,7 +1137,7 @@ export default function DetailsPage() {
             <li>{t('details.dresscode.item2')}</li>
             <li>{t('details.dresscode.item3')}</li>
           </ul>
-          <div className="mt-4 p-4 bg-rose-50 rounded-lg">
+          <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
             <p className="text-gray-700">
               <strong>{t('details.dresscode.colors.label')}</strong> {t('details.dresscode.colors.value')}
               <br />
@@ -1149,7 +1149,7 @@ export default function DetailsPage() {
         {/* Accommodation */}
         <section className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center gap-3 mb-6">
-            <Hotel className="w-8 h-8 text-rose-600" />
+            <Hotel className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('details.accommodation.heading')}</h2>
           </div>
           <p className="text-gray-600 mb-6">{t('details.accommodation.intro')}</p>
@@ -1179,12 +1179,12 @@ export default function DetailsPage() {
         </section>
 
         {/* Contact */}
-        <section className="bg-rose-50 rounded-xl p-8 text-center">
+        <section className="bg-yellow-50 rounded-xl p-8 text-center">
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-4">{t('details.contact.heading')}</h2>
           <p className="text-gray-600 mb-6">{t('details.contact.body')}</p>
           <a
             href="mailto:hsifula@gmail.com"
-            className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+            className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
           >
             {t('details.contact.button')}
           </a>
@@ -1222,9 +1222,9 @@ export default function PhotosPage() {
   const GOOGLE_DRIVE_LINK = 'https://drive.google.com/drive/folders/13uinM1Cb8-Q9RZOI5jrPWf_YJuNdEuEw?usp=drive_link'
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-pink-50 to-purple-50">
       <div className="text-center py-16 px-4">
-        <Camera className="w-16 h-16 mx-auto mb-6 text-rose-500" />
+        <Camera className="w-16 h-16 mx-auto mb-6 text-yellow-500" />
         <h1 className="font-serif text-5xl sm:text-6xl font-bold text-gray-900 mb-4">
           {t('photos.heading')}
         </h1>
@@ -1234,7 +1234,7 @@ export default function PhotosPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 space-y-8">
         <section className="bg-white rounded-xl shadow-lg p-8">
           <div className="flex items-center gap-3 mb-6">
-            <Upload className="w-8 h-8 text-rose-600" />
+            <Upload className="w-8 h-8 text-yellow-600" />
             <h2 className="font-serif text-3xl font-bold text-gray-900">{t('photos.upload.heading')}</h2>
           </div>
           <p className="text-gray-600 mb-6">{t('photos.upload.intro')}</p>
@@ -1245,8 +1245,8 @@ export default function PhotosPage() {
               { n: 3, hKey: 'photos.upload.step3.heading', bKey: 'photos.upload.step3.body' },
             ].map(step => (
               <div key={step.n} className="flex gap-4">
-                <div className="flex-shrink-0 w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center">
-                  <span className="text-rose-600 font-bold">{step.n}</span>
+                <div className="flex-shrink-0 w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                  <span className="text-yellow-600 font-bold">{step.n}</span>
                 </div>
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-1">{t(step.hKey)}</h3>
@@ -1259,7 +1259,7 @@ export default function PhotosPage() {
             href={GOOGLE_DRIVE_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors"
+            className="inline-flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 rounded-lg font-semibold text-lg transition-colors"
           >
             <Camera className="w-5 h-5" />
             {t('photos.upload.button')}
@@ -1278,7 +1278,7 @@ export default function PhotosPage() {
             href="https://photos.app.goo.gl/C4LK4Fb75xfg644X6"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-rose-600 px-6 py-3 rounded-lg font-semibold border-2 border-rose-600 transition-colors"
+            className="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-yellow-600 px-6 py-3 rounded-lg font-semibold border-2 border-yellow-600 transition-colors"
           >
             <Camera className="w-5 h-5" />
             {t('photos.alt.button')}
@@ -1290,15 +1290,15 @@ export default function PhotosPage() {
           <div className="space-y-3 text-gray-600">
             {(['photos.guidelines.1', 'photos.guidelines.2', 'photos.guidelines.3', 'photos.guidelines.4'] as const).map(key => (
               <div key={key} className="flex items-start gap-2">
-                <Heart className="w-5 h-5 text-rose-500 flex-shrink-0 mt-0.5" />
+                <Heart className="w-5 h-5 text-yellow-500 flex-shrink-0 mt-0.5" />
                 <p>{t(key)}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="bg-rose-50 rounded-xl p-8 text-center">
-          <Heart className="w-12 h-12 mx-auto mb-4 text-rose-500 fill-current" />
+        <section className="bg-yellow-50 rounded-xl p-8 text-center">
+          <Heart className="w-12 h-12 mx-auto mb-4 text-yellow-500 fill-current" />
           <h2 className="font-serif text-2xl font-bold text-gray-900 mb-3">{t('photos.thanks.heading')}</h2>
           <p className="text-gray-600">{t('photos.thanks.body')}</p>
         </section>

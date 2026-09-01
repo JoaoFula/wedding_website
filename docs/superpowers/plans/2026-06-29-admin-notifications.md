@@ -162,7 +162,7 @@ export interface Guest {
   username: string
   name: string
   attending: boolean
-  plus_one_name?: string
+  plus_one_names?: string[]
   dietary_restrictions?: string
   accommodation_needed: boolean
   spotify_song_suggestion?: string
@@ -258,7 +258,7 @@ The full button should look like:
   onClick={() => setActiveTab('rsvps')}
   className={`px-4 py-2 font-medium border-b-2 transition-colors ${
     activeTab === 'rsvps'
-      ? 'border-rose-600 text-rose-600'
+      ? 'border-yellow-600 text-yellow-600'
       : 'border-transparent text-gray-600 hover:text-gray-900'
   }`}
 >

@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import { Heart, LogIn, LogOut, User } from 'lucide-react'
+import { LogIn, LogOut, User } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from '@/components/LanguageProvider'
 import { LOCALES, LocaleCode } from '@/lib/i18n'
@@ -70,8 +71,14 @@ export default function Navigation() {
     <nav className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-2 text-rose-600 hover:text-rose-700">
-            <Heart className="w-6 h-6 fill-current" />
+          <Link href="/" className="flex items-center space-x-2 text-blue-400 hover:text-blue-500">
+            <Image
+              src="/brownflower.jpg"
+              alt=""
+              width={24}
+              height={24}
+              className="w-6 h-6 rounded-full object-cover"
+            />
             <span className="font-semibold text-lg">Our Wedding</span>
           </Link>
 
@@ -88,8 +95,8 @@ export default function Navigation() {
                 href={href}
                 className={`${
                   isActive(href.split('?')[0])
-                    ? 'text-rose-600 border-b-2 border-rose-600'
-                    : 'text-gray-700 hover:text-rose-600'
+                    ? 'text-yellow-600 border-b-2 border-yellow-600'
+                    : 'text-gray-700 hover:text-yellow-600'
                 } px-3 py-2 text-sm font-medium transition-colors`}
               >
                 {label}
@@ -102,7 +109,7 @@ export default function Navigation() {
             <div className="relative" ref={langRef} onKeyDown={(e) => { if (e.key === 'Escape') setLangOpen(false) }}>
               <button
                 onClick={() => setLangOpen(o => !o)}
-                className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:border-rose-400 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:border-yellow-400 transition-colors"
                 aria-label={`Select language, current: ${currentLocale.name}`}
                 aria-expanded={langOpen}
                 aria-haspopup="listbox"
@@ -119,14 +126,14 @@ export default function Navigation() {
                       key={loc.code}
                       onClick={() => { setLocale(loc.code as LocaleCode); setLangOpen(false) }}
                       className={`w-full flex items-center gap-3 px-4 py-2.5 text-left hover:bg-gray-50 transition-colors ${
-                        loc.code === locale ? 'bg-rose-50 border-l-2 border-rose-500' : ''
+                        loc.code === locale ? 'bg-yellow-50 border-l-2 border-yellow-500' : ''
                       }`}
                     >
                       <span className="text-xl">{loc.flag}</span>
                       <div>
                         <div className="text-sm font-medium text-gray-900">{loc.name}</div>
                         {loc.code === locale && (
-                          <span className="text-rose-500 text-xs ml-auto">✓</span>
+                          <span className="text-yellow-500 text-xs ml-auto">✓</span>
                         )}
                       </div>
                     </button>
@@ -144,7 +151,7 @@ export default function Navigation() {
                 </div>
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50 rounded-lg transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                   {t('nav.logout')}
@@ -153,7 +160,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/login"
-                className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition-colors"
+                className="hidden md:inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700 rounded-lg transition-colors"
               >
                 <LogIn className="w-4 h-4" />
                 {t('nav.login')}
@@ -161,7 +168,7 @@ export default function Navigation() {
             )}
 
             <div className="md:hidden">
-              <button className="text-gray-700 hover:text-rose-600">
+              <button className="text-gray-700 hover:text-yellow-600">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
