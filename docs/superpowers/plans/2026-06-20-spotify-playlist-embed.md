@@ -35,7 +35,7 @@
 Append this line to `.env.local`:
 
 ```
-NEXT_PUBLIC_SPOTIFY_INVITE_URL=https://open.spotify.com/playlist/1q7gd1czHuYwJ3RSd8fklx?si=b6766fd293574642&pt=07c1481c29999119bbdbe265125cb8e1
+NEXT_PUBLIC_SPOTIFY_INVITE_URL=xxx
 ```
 
 - [ ] **Step 2: Add a placeholder to `.env.local.example`**
